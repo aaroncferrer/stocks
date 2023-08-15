@@ -5,7 +5,7 @@ class JwtAuth
         JWT.encode(payload, SECRET_KEY)
     end
 
-    def self.decode(payload)
+    def self.decode(token)
         JWT.decode(token, SECRET_KEY)[0]
     end
 end
