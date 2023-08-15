@@ -1,0 +1,11 @@
+class JwtAuth
+    SECRET_KEY = Rails.application.credentials.secret_key_base
+
+    def self.encode(payload)
+        JWT.encode(payload, SECRET_KEY)
+    end
+
+    def self.decode(payload)
+        JWT.decode(token, SECRET_KEY)[0]
+    end
+end
