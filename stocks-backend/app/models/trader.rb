@@ -12,7 +12,7 @@ class Trader < ApplicationRecord
 
     enum status: { pending: "pending", approved: "approved" }
 
-    validate :unique_email_across_models
+    validate :unique_email_across_models, on: :create
 
     private
 

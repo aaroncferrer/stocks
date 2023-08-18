@@ -6,7 +6,7 @@ class Admin < ApplicationRecord
 
     has_secure_password
 
-    validate :unique_email_across_models
+    validate :unique_email_across_models, on: :create
 
     private
 
