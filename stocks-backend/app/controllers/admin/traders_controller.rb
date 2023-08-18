@@ -2,9 +2,9 @@ require 'jwt_auth'
 
 class Admin::TradersController < ApplicationController
     before_action :require_admin
-
+    
     def index
-        traders = Trader.all
+        traders = pending_traders(params[:status])
         render json: traders
     end
 
@@ -40,6 +40,14 @@ class Admin::TradersController < ApplicationController
 
     def trader_params
         params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :status)
+    end
+
+    def pending_traders(status = nil)
+        if status.present?
+            Trader.where(status: status)
+        else
+            Trader.all
+        end
     end
 
     def require_admin
