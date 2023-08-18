@@ -11,4 +11,14 @@ class Trader < ApplicationRecord
     has_secure_password
 
     enum status: { pending: "pending", approved: "approved" }
+
+    validate :unique_email_across_models
+
+    private
+
+    def unique_email_across_models
+        if Admin.exists?(email: email) || Trader.exists?(email: email)
+            errors.add(:email, 'is already taken')
+        end
+    end
 end
