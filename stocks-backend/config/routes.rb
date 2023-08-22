@@ -8,4 +8,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :traders, only: [:index, :show, :create, :update]
   end
+
+  resources :stocks, only: [:index]
+  get '/stocks/:symbol', to: 'stocks#show', as: 'stock'
 end
