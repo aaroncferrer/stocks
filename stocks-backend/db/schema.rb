@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_22_112153) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_23_123906) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_112153) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "portfolios", force: :cascade do |t|
+    t.bigint "trader_id", null: false
+    t.string "stock_symbol"
+    t.integer "quantity"
+    t.float "current_price"
+    t.float "total_amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trader_id"], name: "index_portfolios_on_trader_id"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -46,4 +57,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_22_112153) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "transactions", force: :cascade do |t|
+    t.bigint "trader_id", null: false
+    t.string "stock_symbol", null: false
+    t.string "action"
+    t.integer "quantity"
+    t.float "total_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["trader_id"], name: "index_transactions_on_trader_id"
+  end
+
+  add_foreign_key "portfolios", "traders"
+  add_foreign_key "transactions", "traders"
 end
