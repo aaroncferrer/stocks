@@ -1,6 +1,11 @@
 require 'jwt_auth'
 
 class TransactionsController < ApplicationController
+  def index
+    transactions = @current_user.transactions.includes(:stock)
+    render json: transactions, include: :stock
+  end
+
   def buy
     stock_symbol = params[:stock_symbol]
     quantity = params[:quantity].to_i
