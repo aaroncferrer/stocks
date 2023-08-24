@@ -1,3 +1,5 @@
+require 'rake'
+Rails.application.load_tasks
 require 'jwt_auth'
 
 class StocksController < ApplicationController
@@ -9,5 +11,10 @@ class StocksController < ApplicationController
   def show
     stock = Stock.find_by(symbol: params[:symbol])
     render json: stock
+  end
+
+  def refresh
+    Rake::Task['fetch_stocks:all'].execute
+    head :no_content
   end
 end

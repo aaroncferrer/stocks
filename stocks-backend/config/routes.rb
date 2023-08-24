@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   resources :stocks, only: [:index]
   get '/stocks/:symbol', to: 'stocks#show', as: 'stock'
+
+  post '/refresh_stocks', to: 'stocks#refresh'
 end
