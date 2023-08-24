@@ -2,14 +2,14 @@
 
 one:
   trader: one
-  stock_symbol: MyString
+  stock: one
   action: MyString
   quantity: 1
   total_price: 1.5
 
 two:
   trader: two
-  stock_symbol: MyString
+  stock: two
   action: MyString
   quantity: 1
   total_price: 1.5

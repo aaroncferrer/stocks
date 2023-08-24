@@ -9,7 +9,7 @@ class StocksController < ApplicationController
   end
 
   def show
-    stock = Stock.find_by(symbol: params[:symbol])
+    stock = Stock.find(params[:id])
     render json: stock
   end
 
