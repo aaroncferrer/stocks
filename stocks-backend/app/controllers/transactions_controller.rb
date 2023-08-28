@@ -2,8 +2,12 @@ require 'jwt_auth'
 
 class TransactionsController < ApplicationController
   def index
-    transactions = @current_user.transactions.includes(:stock)
-    render json: transactions, include: :stock
+    if @current_user.is_a?(Admin)
+      transactions = Transaction.includes(:trader, :stock)
+    else
+      transactions = @current_user.transactions.includes(:stock)
+    end
+    render json: transactions, include: [:trader, :stock]
   end
 
   def buy
