@@ -34,6 +34,39 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def sell
+    stock_symbol = params[:stock_symbol]
+    quantity = params[:quantity].to_i 
+
+    stock = Stock.find_by(symbol:stock_symbol)
+    if stock.nil?
+      render json: { error: 'Stock not found' }, status: :not_found
+      return
+    end
+
+    portfolio = @current_user.portfolios.find_by(stock: stock)
+    if portfolio.nil? || portfolio.quantity < quantity
+      render json: { error: 'Not enough stocks to sell' }, status: :unprocessable_entity
+      return
+    end
+
+    total_price = stock.price_amount * quantity
+
+    transaction = @current_user.transactions.new(
+      stock: stock,
+      action: 'sell',
+      quantity: quantity,
+      total_price: total_price
+    )
+
+    if transaction.save
+      update_portfolio(stock, -quantity)
+      render json: { transaction: transaction }, status: :created
+    else
+      render json: { error: 'Failed to create transaction', details: transaction.error.full_messages }, status: :unprocessable_entity
+    end
+  end
+
 	private
 
 	def update_portfolio(stock, quantity)
