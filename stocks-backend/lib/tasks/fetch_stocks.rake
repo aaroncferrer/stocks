@@ -6,8 +6,9 @@ namespace :fetch_stocks do
 
     if response.success?
       stocks = response['stock']
-
+      
       stocks.each do |stock_data|
+        # FETCH AND POPULATE STOCK MODEL
         stock = Stock.find_or_initialize_by(symbol: stock_data['symbol'])
         stock.update(
             name: stock_data['name'],
@@ -18,6 +19,16 @@ namespace :fetch_stocks do
             volume: stock_data['volume'],
             as_of: Time.current
         )
+      
+        # UPDATE ASSOCIATED STOCKS IN PORTFOLIOS
+        portfolios = Portfolio.where(stock: stock)
+        portfolios.each do |portfolio|
+          portfolio.update(
+            current_price: stock.price_amount,
+            total_amount: portfolio.quantity * stock.price_amount
+          )
+        end
+
       end
       puts "Stocks fetched and saved successfully at #{Time.now}"
     else

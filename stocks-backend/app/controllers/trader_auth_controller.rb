@@ -18,7 +18,7 @@ class TraderAuthController < ApplicationController
     if trader&.authenticate(params[:password])
       if trader.approved?
         token = JwtAuth.encode({ trader_id: trader.id })
-        render json: { token: token, trader: trader.as_json(only: [:id, :first_name, :last_name, :email]) }, status: :ok
+        render json: { token: token, trader: trader.as_json(only: [:id, :first_name, :last_name, :email, :balance]) }, status: :ok
       else
         render json: { error: "Trader account not yet approved" }, status: :unauthorized
       end
@@ -30,7 +30,7 @@ class TraderAuthController < ApplicationController
   private
 
   def trader_params
-    params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation)
+    params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :balance)
   end
 
 end

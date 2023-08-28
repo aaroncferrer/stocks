@@ -22,19 +22,33 @@ class TransactionsController < ApplicationController
 
     total_price = stock.price_amount * quantity
 
-    transaction = @current_user.transactions.new(
-      stock: stock,
-      action: 'buy',
-      quantity: quantity,
-      total_price: total_price,
-			stock_symbol: stock_symbol
-    )
+    if @current_user.balance >= total_price
+      puts "Before transaction - Balance: #{@current_user.balance}"
+      @current_user.balance -= total_price  
+      @current_user.save(validate: false) # Revisit this
+      @current_user.save!
+      trader.update!(balance: @current_user.balance)
 
-    if transaction.save
-      update_portfolio(stock, quantity)
-      render json: { transaction: transaction }, status: :created
+      transaction = @current_user.transactions.new(
+        stock: stock,
+        action: 'buy',
+        quantity: quantity,
+        total_price: total_price,
+        stock_symbol: stock_symbol
+      )
+
+      if transaction.save
+        update_portfolio(stock, quantity)
+        render json: { transaction: transaction }, status: :created
+      else
+        # Restore the balance if transaction fails
+        @current_user.update(balance: @current_user.balance + total_price)
+        @current_user.reload
+        render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
+      end
+      puts "After transaction - Balance: #{@current_user.balance}"
     else
-      render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
+      render json: { error: 'Insufficient balance' }, status: :unprocessable_entity
     end
   end
 
