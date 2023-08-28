@@ -26,7 +26,7 @@ env :PATH, ENV['PATH']
 
 set :output, './log/cron.log'
 
-every 30.minutes do
+every 5.minutes do
     runner 'puts Time.now'
     runner 'puts Rails.env'
     runner "puts 'Hello, World!'"

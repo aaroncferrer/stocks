@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
   resources :transactions, only: [:index]
   post '/buy', to: 'transactions#buy'
+  post 'sell', to: 'transactions#sell'
 
   namespace :admin do
     resources :traders, only: [:index, :show, :create, :update]
