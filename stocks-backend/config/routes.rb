@@ -13,6 +13,10 @@ Rails.application.routes.draw do
     resources :traders, only: [:index, :show, :create, :update]
   end
 
+  post 'traders/deposit', to: 'traders#deposit'
+  post 'traders/withdraw', to: 'traders#withdraw'
+
+
   resources :stocks, only: [:index, :show]
   post '/refresh_stocks', to: 'stocks#refresh'
 
