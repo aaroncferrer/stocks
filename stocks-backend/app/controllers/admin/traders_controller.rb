@@ -44,7 +44,7 @@ class Admin::TradersController < ApplicationController
     private
 
     def trader_params
-        params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :status)
+        params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :status, :balance)
     end
 
     def pending_traders(status = nil)
