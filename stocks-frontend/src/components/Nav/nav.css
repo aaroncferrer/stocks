@@ -1,0 +1,43 @@
+nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 1rem 0;
+    position: relative;
+    z-index: 1;
+}
+
+.nav_logo img {
+    height: 4rem;
+}
+
+.nav_actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav_actions a {
+    position: relative;
+    color: white;
+    font-family: var(--font-primary);
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.nav_actions a::before {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background-color: white;
+    bottom: -7px;
+    left: 0;
+    transition: var(--transition);
+}
+
+.nav_actions a:hover::before {
+    width: 100%;
+}
