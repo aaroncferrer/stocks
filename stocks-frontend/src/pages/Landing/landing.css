@@ -1,6 +1,4 @@
 .landing_container {
-    background: linear-gradient(to bottom, #010711 5%, var(--color-bg) 30%, var(--color-bg) 30%, var(--color-bg) 35%);
-    height: 85vh;
     position: relative;
     overflow: hidden;
 }
@@ -12,13 +10,15 @@
     top: -8rem;
 }
 
+/* LANDING TEXT */
 .landing_text {
+    height: 85vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap: 1rem;
     width: 65%;
-    margin: 5rem auto 0;
+    margin: 0 auto;
     font-family: var(--font-primary);
     color: white;
 }
@@ -31,4 +31,11 @@
     width: 65%;
     font-size: 0.9rem;
     line-height: 1.5rem;
+}
+
+/* LANDING ABOUT */
+.landing_about {
+    height: 55vh;
+    position: relative;
+    background-color: white;
 }
