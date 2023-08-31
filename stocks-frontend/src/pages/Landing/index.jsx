@@ -5,14 +5,15 @@ import { BsFillPeopleFill } from 'react-icons/bs'
 import AuthModal from '../../components/AuthModal';
 import './landing.css'
 import visionData from './visions.json';
+import Nav from '../../components/Nav';
 
-function Landing() {
+function Landing({setCurrentUser}) {
     const [showSignup, setShowSignup] = useState(false);
     const visions = visionData.visions;
-    console.log(visions)
 
     return(
         <main className="landing_container">
+            <Nav setCurrentUser={setCurrentUser}/>
 
             <AuthModal 
                 showSignup={showSignup}
@@ -37,7 +38,7 @@ function Landing() {
                     <h3>Navigating Opportunities , One Trade at a Time</h3>
                     <div className="vision">
                     {visions.map((vision) => (
-                        <div className="vision_item">
+                        <div className="vision_item" key={vision.id}>
                             {vision.logo === "FaGlobe" && <FaGlobe className='vision_logo' />}
                             {vision.logo === "SiSmartthings" && <SiSmartthings className='vision_logo' />}
                             {vision.logo === "BsFillPeopleFill" && <BsFillPeopleFill className='vision_logo' />}

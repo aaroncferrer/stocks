@@ -1,10 +1,14 @@
 // Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+// File Imports
 import Landing from "./pages/Landing"
-import { useEffect, useState } from 'react';
-import Nav from './components/Nav';
+import AdminDashboard from "./pages/AdminDashboard"
+import TraderDashboard from "./pages/TraderDashboard"
 import Footer from './components/Footer';
+
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 function App() {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || null)
@@ -14,11 +18,14 @@ function App() {
     }, [currentUser])
 
     return (
-        <>  
-            <Nav setCurrentUser={setCurrentUser} />
-            <Landing />
+        <Router>  
+            <Routes>
+                <Route exact path='/' element={<Landing setCurrentUser={setCurrentUser} />} />
+                <Route exact path='/admin' element={<AdminDashboard />} />
+                <Route exact path='/trader' element={<TraderDashboard />} />
+            </Routes>
             <Footer />
-        </>
+        </Router>
     )
 }
 

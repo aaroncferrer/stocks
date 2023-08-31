@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
+import { useNavigate } from 'react-router-dom';
 
 function AuthModal(props){
-
     const {showLogin, setShowLogin, showSignup, setShowSignup, setCurrentUser} = props;
+
+    const navigate = useNavigate();
     
     const [currentUserType, setCurrentUserType] = useState("admin");
     const [loginFormData, setLoginFormData] = useState({
@@ -40,6 +42,12 @@ function AuthModal(props){
                 email: '',
                 password: ''
             })
+            if(data.admin){
+                navigate('/admin');
+            }else {
+                navigate('/trader')
+            }
+            setShowLogin(false);
         }catch(error){
             alert(error.response.data.error);
         }

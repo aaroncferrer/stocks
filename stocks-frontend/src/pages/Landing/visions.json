@@ -1,16 +1,19 @@
 {
     "visions" : [
-        {
+        {   
+            "id" : 1,
             "logo" : "FaGlobe",
             "title" : "Global Access, Local Opportunities",
             "description" : "At Peso Trade, our vision is to provide every individual with the tools and knowledge to access global financial markets seamlessly."
         },
         {
+            "id" : 2,
             "logo" : "SiSmartthings",
             "title" : "Smart Trading for All",
             "description" : "Our vision is to make trading intelligent, approachable, and profitable for everyone. Peso Trade is committed to simplifying the complexities of trading, offering cutting-edge tools."
         },
         {
+            "id" : 3,
             "logo" : "BsFillPeopleFill",
             "title" : "Community-Centric Growth",
             "description" : "Peso Trade envisions a vibrant community of traders who learn, grow, and succeed together -fostering a culture of continuous learning and collaboration."
