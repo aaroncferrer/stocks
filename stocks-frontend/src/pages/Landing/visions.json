@@ -1,19 +1,22 @@
 {
     "visions" : [
-        {
+        {   
+            "id" : 1,
             "logo" : "FaGlobe",
             "title" : "Global Access, Local Opportunities",
-            "description" : "At Peso Trade, our vision is to provide every individual with the tools and knowledge to access global financial markets seamlessly. We believe in democratizing investment opportunities, enabling you to explore and capitalize on local and international markets, all from the convenience of your fingertips."
+            "description" : "At Peso Trade, our vision is to provide every individual with the tools and knowledge to access global financial markets seamlessly."
         },
         {
+            "id" : 2,
             "logo" : "SiSmartthings",
             "title" : "Smart Trading for All",
-            "description" : "Our vision is to make trading intelligent, approachable, and profitable for everyone. Peso Trade is committed to simplifying the complexities of trading, offering cutting-edge tools like AI-driven insights and user-friendly interfaces. We're here to empower both beginners and seasoned traders to make informed decisions and navigate the financial markets effectively."
+            "description" : "Our vision is to make trading intelligent, approachable, and profitable for everyone. Peso Trade is committed to simplifying the complexities of trading, offering cutting-edge tools."
         },
         {
+            "id" : 3,
             "logo" : "BsFillPeopleFill",
             "title" : "Community-Centric Growth",
-            "description" : "Peso Trade envisions a vibrant community of traders who learn, grow, and succeed together. We're not just a trading platform; we're a supportive ecosystem where traders of all levels can share strategies, discuss trends, and learn from one another. Our goal is to foster a culture of continuous learning and collaboration that propels everyone towards their financial aspirations."
+            "description" : "Peso Trade envisions a vibrant community of traders who learn, grow, and succeed together -fostering a culture of continuous learning and collaboration."
         }
     ]
 }

@@ -5,14 +5,15 @@ import { BsFillPeopleFill } from 'react-icons/bs'
 import AuthModal from '../../components/AuthModal';
 import './landing.css'
 import visionData from './visions.json';
+import Nav from '../../components/Nav';
 
-function Landing() {
+function Landing({setCurrentUser}) {
     const [showSignup, setShowSignup] = useState(false);
     const visions = visionData.visions;
-    console.log(visions)
 
     return(
         <main className="landing_container">
+            <Nav setCurrentUser={setCurrentUser}/>
 
             <AuthModal 
                 showSignup={showSignup}
@@ -34,17 +35,17 @@ function Landing() {
             <section className="landing_about">
                 <div className="vision_container">
                     <h1>Our Company Vision</h1>
-                    <h2>Navigating Opportunities , One Trade at a Time</h2>
+                    <h3>Navigating Opportunities , One Trade at a Time</h3>
                     <div className="vision">
-                        {visions.map((vision) => (
-                            <>
-                            {vision.logo === "FaGlobe" && <FaGlobe />}
-                            {vision.logo === "SiSmartthings" && <SiSmartthings />}
-                            {vision.logo === "BsFillPeopleFill" && <BsFillPeopleFill />}
-                            <h4>{vision.title}</h4>
+                    {visions.map((vision) => (
+                        <div className="vision_item" key={vision.id}>
+                            {vision.logo === "FaGlobe" && <FaGlobe className='vision_logo' />}
+                            {vision.logo === "SiSmartthings" && <SiSmartthings className='vision_logo' />}
+                            {vision.logo === "BsFillPeopleFill" && <BsFillPeopleFill className='vision_logo' />}
+                            <h5>{vision.title}</h5>
                             <p>{vision.description}</p>
-                            </>
-                        ))}
+                        </div>
+                    ))}
                     </div>
                 </div>
             </section>
