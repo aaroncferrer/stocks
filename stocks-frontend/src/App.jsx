@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Landing from "./pages/Landing"
 import { useEffect, useState } from 'react';
+import Nav from './components/Nav';
 
 function App() {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || null)
@@ -12,7 +13,8 @@ function App() {
     }, [currentUser])
 
     return (
-        <>
+        <>  
+            <Nav setCurrentUser={setCurrentUser} />
             <Landing />
         </>
     )

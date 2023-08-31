@@ -3,8 +3,9 @@ nav {
     justify-content: space-around;
     align-items: center;
     padding: 1rem 0;
-    position: relative;
     z-index: 1;
+    position: fixed;
+    width: 100%;
 }
 
 .nav_logo img {
