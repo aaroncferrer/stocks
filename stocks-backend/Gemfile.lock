@@ -66,6 +66,8 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    addressable (2.8.5)
+      public_suffix (>= 2.0.2, < 6.0)
     bcrypt (3.1.19)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
@@ -73,6 +75,8 @@ GEM
     chronic (0.10.2)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     date (3.3.3)
     debug (1.8.0)
@@ -97,6 +101,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.1.0)
       activesupport (>= 5.0)
+    hashdiff (1.0.1)
     httparty (0.21.0)
       mini_mime (>= 1.0.0)
       multi_xml (>= 0.5.2)
@@ -133,6 +138,7 @@ GEM
     nokogiri (1.15.3-x86_64-linux)
       racc (~> 1.4)
     pg (1.5.3)
+    public_suffix (5.0.3)
     puma (5.6.6)
       nio4r (~> 2.0)
     raabro (1.4.0)
@@ -175,6 +181,7 @@ GEM
       connection_pool
     reline (0.3.7)
       io-console (~> 0.5)
+    rexml (3.2.6)
     rspec-core (3.12.2)
       rspec-support (~> 3.12.0)
     rspec-expectations (3.12.3)
@@ -209,6 +216,10 @@ GEM
     timeout (0.4.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    webmock (3.19.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
@@ -236,6 +247,7 @@ DEPENDENCIES
   sidekiq
   simplecov
   tzinfo-data
+  webmock
   whenever
 
 RUBY VERSION
