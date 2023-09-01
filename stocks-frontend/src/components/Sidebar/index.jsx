@@ -31,10 +31,15 @@ function Sidebar(props){
                 className={`btns ${module === 'Stocks' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}
                 onClick={() => handleModuleSelection('Stocks')}
             >
-            Stock List
+                Stock List
             </button>
             {currentUser.role === "admin" ? 
-            <button className='btns btn_primary sidebar_btn'>Traders</button> 
+            <button 
+                className={`btns ${module === 'Traders' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}
+                onClick={() => handleModuleSelection('Traders')}
+            >
+                Traders
+            </button> 
             : null }
             {currentUser.role === "trader" ? 
             <button className='btns btn_primary sidebar_btn'>Portfolio</button> 
@@ -43,7 +48,7 @@ function Sidebar(props){
                 className={`btns ${module === 'Transactions' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}
                 onClick={() => handleModuleSelection('Transactions')}
             >
-            Transactions
+                Transactions
             </button>
             <button className='btns btn_primary sidebar_btn signout_btn' onClick={handleLogout}>
                 Sign Out

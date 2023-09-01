@@ -1,4 +1,4 @@
-.stocks_container {
+.utilTable_container {
     color: white;
     display: flex;
     flex-direction: column;
@@ -6,7 +6,7 @@
     font-family: var(--font-primary);
 }
 
-.stocks_container h1 {
+.utilTable_container h1 {
     margin: 0;
     letter-spacing: 3px;
 }
@@ -34,23 +34,23 @@
 
 }
 
-.stocks_table  {
+.utilTable  {
     background-color: rgba(255, 255, 255, 0.2);
     width: 100%;
 }
 
-.stocks_table td, 
-.stocks_table th {
+.utilTable td, 
+.utilTable th {
     padding: 0.7rem; 
 }
 
-.stocks_table th {
+.utilTable th {
     text-transform: uppercase;
     font-weight: 600;
     border-bottom: 2px solid white;
 }
 
-.stocks_table td {
+.utilTable td {
     font-size: 0.85rem;
 }
 

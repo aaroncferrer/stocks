@@ -3,6 +3,7 @@ import Sidebar from '../../components/Sidebar';
 import Stocks from '../../components/Stocks';
 import Transactions from '../../components/Transactions';
 import './adminDashboard.css'
+import Traders from '../../components/Traders';
 
 function AdminDashboard({currentUser}){
     const [module, setModule] = useState(null);
@@ -19,10 +20,9 @@ function AdminDashboard({currentUser}){
                 module={module} 
                 handleModuleSelection={handleModuleSelection}
             />
-            {/* <article> */}
-                {module === 'Stocks' && <Stocks currentUser={currentUser} />}
-                {module === 'Transactions' && <Transactions currentUser={currentUser} />}  
-            {/* </article> */}
+            {module === 'Stocks' && <Stocks currentUser={currentUser} />}
+            {module === 'Transactions' && <Transactions currentUser={currentUser} />}  
+            {module === 'Traders' && <Traders currentUser={currentUser} />}  
         </section>
     )
 }
