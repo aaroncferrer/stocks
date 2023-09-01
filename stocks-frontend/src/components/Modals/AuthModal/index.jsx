@@ -35,7 +35,7 @@ function AuthModal(props){
         e.preventDefault();
 
         try{
-            const response = await axios.post(`https://stocks-avion.onrender.com/${currentUserType}/login`, loginFormData);
+            const response = await axios.post(`http://localhost:3000/${currentUserType}/login`, loginFormData);
             const data = response.data;
             setCurrentUser({...data[currentUserType], token: data.token, role: currentUserType})
             console.log(data);
@@ -73,6 +73,7 @@ function AuthModal(props){
                 password: '',
                 password_confirmation: ''
             })
+            setShowSignup(false);
         }catch(error){
             alert(error.response.data.errors[0]);
         }

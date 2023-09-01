@@ -1,9 +1,13 @@
 footer {
-    position: relative;
     background: #222222;
     color: white;
     font-family: var(--font-primary);
     font-size: 0.8rem;
     text-align: center;
     padding: 1rem 0;
+
+    /* TEMPORARY */
+    /* position: absolute;
+    bottom: 0;
+    width: 100%; */
 }

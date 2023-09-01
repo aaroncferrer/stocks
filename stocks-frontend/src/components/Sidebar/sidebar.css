@@ -1,0 +1,77 @@
+.sidebar {
+    color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    padding: 1rem;
+    height: 85vh;
+    align-items: center;
+    background-color: var(--color-bg-light);
+    border-radius: 5px;
+}
+
+.avatar_container {
+    color: var(--color-bg);
+    border-radius: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    width: 100%;
+    background: var(--color-light);
+    
+}
+
+.avatar_text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    text-transform: capitalize;
+}
+
+.avatar_container h4, .avatar_container h6 {
+    margin: 0;
+    font-family: var(--font-tertiary);
+}
+
+.avatar_logo {
+    font-size: 4rem;
+}
+
+.avatar_admin {
+    color: rgb(156, 144, 79);
+}
+
+.balance_container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    background: transparent;
+    color: var(--color-light);
+    outline: 1px solid var(--color-light);
+}
+
+.balance_container:hover {
+    background: var(--color-light);
+    color: var(--color-bg);
+}
+
+.balance_container > span:nth-child(1) {
+  font-size: 1.7rem;
+}
+
+.balance_container > span:nth-child(2) {
+    text-transform: uppercase;
+    font-size: 0.7rem;
+}
+
+.sidebar_btn {
+    width: 100%;
+}
+
+.signout_btn {
+    margin-top: auto; /* Push the button to the bottom */
+    align-self: flex-end;
+}
