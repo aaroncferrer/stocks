@@ -21,8 +21,12 @@ function App() {
         <Router>  
             <Routes>
                 <Route exact path='/' element={<Landing setCurrentUser={setCurrentUser} />} />
-                <Route exact path='/admin' element={<AdminDashboard />} />
-                <Route exact path='/trader' element={<TraderDashboard />} />
+                <Route exact path='/admin' element={<AdminDashboard 
+                    currentUser={currentUser} />} 
+                />
+                <Route exact path='/trader' element={<TraderDashboard 
+                    currentUser={currentUser} />} 
+                />
             </Routes>
             <Footer />
         </Router>

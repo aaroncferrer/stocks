@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FaGlobe } from 'react-icons/fa'
 import { SiSmartthings } from 'react-icons/si'
 import { BsFillPeopleFill } from 'react-icons/bs'
-import AuthModal from '../../components/AuthModal';
+import AuthModal from '../../components/Modals/AuthModal';
 import './landing.css'
 import visionData from './visions.json';
 import Nav from '../../components/Nav';
@@ -10,6 +10,10 @@ import Nav from '../../components/Nav';
 function Landing({setCurrentUser}) {
     const [showSignup, setShowSignup] = useState(false);
     const visions = visionData.visions;
+
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return(
         <main className="landing_container">

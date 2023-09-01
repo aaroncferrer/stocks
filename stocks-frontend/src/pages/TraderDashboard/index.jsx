@@ -1,6 +1,15 @@
-function TraderDashboard() {
+import Sidebar from "../../components/Sidebar";
+
+function TraderDashboard({currentUser}) {
     return(
-        <h1>Hello Trader!</h1>
+        <section className="page">
+            
+            <Sidebar currentUser={currentUser} />
+
+            <article>
+
+            </article>
+        </section>
     )
 }
 

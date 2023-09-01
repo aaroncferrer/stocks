@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import './nav.css'
-import AuthModal from '../AuthModal';
+import AuthModal from '../Modals/AuthModal';
 
 function Nav({setCurrentUser}) {
     const [showLogin, setShowLogin] = useState(false);
 
     return (
-        <nav>
+        <nav className='topbar'>
             <AuthModal
                 setCurrentUser={setCurrentUser}
                 showLogin={showLogin}
