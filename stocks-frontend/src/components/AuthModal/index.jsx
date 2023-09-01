@@ -3,6 +3,8 @@ import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
 
+import './authModal.css'
+
 function AuthModal(props){
     const {showLogin, setShowLogin, showSignup, setShowSignup, setCurrentUser} = props;
 
@@ -79,14 +81,22 @@ function AuthModal(props){
     return(
         <>
         {/* SIGN IN */}
-        <Modal show={showLogin} onHide={() => setShowLogin(false)}>
+        <Modal show={showLogin} onHide={() => setShowLogin(false)} className='modal'>
+            <Modal.Header className='modal_header'>
+                <h2>
+                    Sign In as {currentUserType === 'admin' ? "admin" : "trader"}
+                </h2>
+                <div className="swtich_btns">
+                    <button onClick={() => setCurrentUserType("admin")} className='btns btn_primary signup_btn'>
+                        Sign In as Admin
+                    </button>
+                    <button onClick={() => setCurrentUserType("trader")} className='btns btn_primary signup_btn'>
+                        Sign In as Trader
+                    </button>
+                </div>
+            </Modal.Header>
             <form onSubmit={handleLogin}>
-                <Modal.Header closeButton>
-                    <h1>
-                        Login as {currentUserType === 'admin' ? "admin" : "trader"}
-                    </h1>
-                </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className='modal_body'>
                     <input
                         type="email"
                         name="email"
@@ -103,24 +113,23 @@ function AuthModal(props){
                         required
                         placeholder="Password"
                     />
-                    <button type='submit' onClick={handleLogin}>Sign In</button>
                 </Modal.Body>
+                
+                <Modal.Footer>
+                    <button type='submit' className='btns btn_secondary' onClick={handleLogin}>Sign In</button>
+                </Modal.Footer>
             </form>
-            <Modal.Footer>
-                <button onClick={() => setCurrentUserType("admin")}>Sign In as Admin</button>
-                <button onClick={() => setCurrentUserType("trader")}>Sign In as Trader</button>
-            </Modal.Footer>
         </Modal>
 
         {/* SIGN UP */}
-        <Modal show={showSignup} onHide={() => setShowSignup(false)}>
+        <Modal show={showSignup} onHide={() => setShowSignup(false)} className='modal'>
             <form onSubmit={handleSignup}>
                 <Modal.Header closeButton>
-                    <h1>
+                    <h2>
                         Create Trader Account
-                    </h1>
+                    </h2>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body className='modal_body'>
                     <input
                         type="text"
                         name="first_name"
@@ -163,7 +172,7 @@ function AuthModal(props){
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <button type='submit' onClick={handleSignup}>Sign Up</button>
+                    <button type='submit' onClick={handleSignup} className='btns btn_secondary'>Sign Up</button>
                 </Modal.Footer>
             </form>
         </Modal>
