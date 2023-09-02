@@ -38,7 +38,7 @@ function Portfolios({ currentUser }) {
         },
         {
             Header: "As of",
-            accessor: "stock.as_of"
+            accessor: (row) => new Date(row.stock.as_of).toLocaleString()
         },
         {
             Header: "Qty Owned",

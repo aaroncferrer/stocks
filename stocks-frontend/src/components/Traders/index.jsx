@@ -26,7 +26,7 @@ function Traders({ currentUser }) {
     const updateTrader = async (id, updatedData) => {
         try {
             const token = currentUser.token;
-            const response = await axios.patch(`http://localhost:3000/admin/traders/${id}`, 
+            await axios.patch(`http://localhost:3000/admin/traders/${id}`, 
             {
                 trader: updatedData
             },

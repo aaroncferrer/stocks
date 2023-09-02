@@ -1,9 +1,10 @@
 import { BsPersonCircle } from 'react-icons/bs'
 import './sidebar.css'
 import { useNavigate } from 'react-router-dom';
+import BalanceModal from '../Modals/BalanceModal';
 
 function Sidebar(props){
-    const {currentUser, handleModuleSelection, module} = props;
+    const { currentUser, handleModuleSelection, module, showWithdrawModal, setShowWithdrawModal, showDepositModal, setShowDepositModal, depositAmount, setDepositAmount, withdrawAmount, setWithdrawAmount, handleDeposit, handleWithdraw } = props;
 
     const navigate = useNavigate();
 
@@ -13,6 +14,24 @@ function Sidebar(props){
     }
 
     return(
+        <>
+
+        {(showWithdrawModal || showDepositModal) && (
+            <BalanceModal
+                currentUser={currentUser} 
+                showWithdrawModal={showWithdrawModal}
+                setShowWithdrawModal={setShowWithdrawModal}
+                showDepositModal={showDepositModal}
+                setShowDepositModal={setShowDepositModal}
+                depositAmount={depositAmount}
+                setDepositAmount={setDepositAmount}
+                withdrawAmount={withdrawAmount}
+                setWithdrawAmount={setWithdrawAmount}
+                handleDeposit={handleDeposit}
+                handleWithdraw={handleWithdraw}
+            />
+        )}
+
         <nav className="sidebar">
             <div className="avatar_container">
                 <BsPersonCircle className={`avatar_logo ${currentUser.role === "admin" ? "avatar_admin" : ""}`} />
@@ -23,8 +42,11 @@ function Sidebar(props){
             </div>
             {currentUser.role === "trader" ? 
             <a className='sidebar_btn balance_container'>
-                <span>₱{currentUser.balance}</span>
-                <span>Manage Fund</span>
+                <span>₱{currentUser.balance.toFixed(2)}</span>
+                <div className="balance_action">
+                    <span className='btns btn_primary' onClick={() => setShowWithdrawModal(true)}>Withdraw</span>
+                    <span className='btns btn_primary' onClick={() => setShowDepositModal(true)}>Deposit</span>    
+                </div>
             </a> 
             : null }
             <button
@@ -59,6 +81,7 @@ function Sidebar(props){
                 Sign Out
             </button>
         </nav>
+        </>
     )
 }
 

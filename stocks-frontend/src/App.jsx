@@ -25,7 +25,7 @@ function App() {
                     currentUser={currentUser} />} 
                 />
                 <Route exact path='/trader' element={<TraderDashboard 
-                    currentUser={currentUser} />} 
+                    currentUser={currentUser} setCurrentUser={setCurrentUser} />} 
                 />
             </Routes>
             <Footer />
