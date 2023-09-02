@@ -20,5 +20,5 @@ Rails.application.routes.draw do
   resources :stocks, only: [:index, :show]
   post '/refresh_stocks', to: 'stocks#refresh'
 
-  resources :portfolios, only: [:index]
+  resources :portfolios, only: [:index, :show]
 end

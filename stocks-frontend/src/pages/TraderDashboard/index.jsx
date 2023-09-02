@@ -92,8 +92,8 @@ function TraderDashboard({setCurrentUser, currentUser}){
                 handleDeposit={handleDeposit}
                 handleWithdraw={handleWithdraw}
             />
-            {module === 'Stocks' && <Stocks currentUser={currentUser} />}
-            {module === 'Portfolios' && <Portfolios currentUser={currentUser} />}
+            {module === 'Stocks' && <Stocks currentUser={currentUser} setCurrentUser={setCurrentUser} />}
+            {module === 'Portfolios' && <Portfolios currentUser={currentUser} setCurrentUser={setCurrentUser} />}
             {module === 'Transactions' && <Transactions currentUser={currentUser} />}  
         </section>
     )

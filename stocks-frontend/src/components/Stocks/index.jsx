@@ -4,7 +4,7 @@ import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 import { GoDash } from 'react-icons/go';
 import Table from '../../utils/Table';
 
-function Stocks({ currentUser }) {
+function Stocks({ currentUser, setCurrentUser }) {
     const [stocks, setStocks] = useState([]);
     const [date, setDate] = useState('');
     const [showStockModal, setShowStockModal] = useState(false);
@@ -95,6 +95,8 @@ function Stocks({ currentUser }) {
             selectedStock={selectedStock}
             setShowModal={setShowStockModal}
             fetchData={fetchStockDetails}
+            currentUser={currentUser}
+            setCurrentUser={setCurrentUser}
         />
     );
 }

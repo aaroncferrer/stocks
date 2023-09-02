@@ -1,12 +1,12 @@
 import React from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
-import StockModal from "../../components/Modals/TableModal";
+import TableModal from "../../components/Modals/TableModal";
 import AuthModal from "../../components/Modals/AuthModal";
 import './table.css'
 
 function Table(props) {
-    const { currentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders,updateTrader } = props;
+    const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders,updateTrader, setPortfolioUpdated } = props;
 
     const {
         getTableProps,
@@ -47,15 +47,19 @@ function Table(props) {
             <div className="utilTable_container">
 
                 {showStockModal && (
-                    <StockModal
+                    <TableModal
                         showStockModal={showStockModal}
                         setShowStockModal={setShowModal}
                         stockData={selectedStock}
+                        currentUser={currentUser}
+                        setCurrentUser={setCurrentUser}
+                        table_header={table_header}
+                        setPortfolioUpdated={setPortfolioUpdated}
                     />
                 )}
 
                 {showTraderModal && (
-                    <StockModal
+                    <TableModal
                         showTraderModal={showTraderModal}
                         setShowTraderModal={setShowModal}
                         traderData={selectedTrader}
@@ -112,7 +116,7 @@ function Table(props) {
                             return(
                                 <tr
                                     onClick={() => {
-                                        table_header !== "TRANSACTIONS" || "PORTFOLIOS" ? (
+                                        table_header !== "TRANSACTIONS" ? (
                                             setShowModal(true), 
                                             fetchData(row.original.id)
                                         ) : null;
