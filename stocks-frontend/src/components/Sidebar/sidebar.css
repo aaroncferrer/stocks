@@ -44,6 +44,7 @@
 }
 
 .balance_container {
+    text-decoration: none;
     display: flex;
     justify-content: center;
     gap: 1rem;
@@ -51,20 +52,33 @@
     background: transparent;
     color: var(--color-light);
     outline: 1px solid var(--color-light);
+    font-family: var(--font-tertiary);
+    padding: 1rem 0;
+    transition: var(--transition);
+    border-radius: 2px;
 }
 
-.balance_container:hover {
+/* .balance_container:hover {
     background: var(--color-light);
     color: var(--color-bg);
-}
+} */
 
 .balance_container > span:nth-child(1) {
   font-size: 1.7rem;
 }
 
-.balance_container > span:nth-child(2) {
-    text-transform: uppercase;
-    font-size: 0.7rem;
+.balance_action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    gap: 0.4rem;
+}
+
+.balance_action span {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.5rem;
 }
 
 .sidebar_btn {

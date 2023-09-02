@@ -1,8 +1,64 @@
+import axios from 'axios';
 import './tableModal.css'
 import Modal from 'react-bootstrap/Modal'
 
 function TableModal(props) {
-    const { showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader } = props;
+    const { currentUser, setCurrentUser, table_header, showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader, setPortfolioUpdated } = props;
+
+    const handleSubmitBuy = async (e) => {
+        e.preventDefault();
+        
+        const stockSymbol = stockData.symbol; 
+        const quantity = e.target.quantity.value;
+        const totalPrice = quantity * stockData.price_amount;
+
+        try {
+            const token = currentUser.token;
+            await axios.post('http://localhost:3000/buy', 
+            {
+                stock_symbol: stockSymbol,
+                quantity: quantity,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            setCurrentUser({ ...currentUser, balance: currentUser.balance - (totalPrice) });
+            alert("Stock successfully bought!");
+            setShowStockModal(false);
+        } catch (error) {
+            alert(error.response.data.error);
+        }
+    };
+
+    const handleSubmitSell = async (e) => {
+        e.preventDefault();
+        
+        const stockSymbol = stockData.symbol; 
+        const quantity = e.target.quantity.value;
+        const totalPrice = quantity * stockData.price_amount;
+
+        try {
+            const token = currentUser.token;
+            const response = await axios.post('http://localhost:3000/sell', 
+            {
+                stock_symbol: stockSymbol,
+                quantity: quantity,
+            }, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            const data = response.data;
+            console.log(data);
+            setPortfolioUpdated(true);
+            setCurrentUser({ ...currentUser, balance: currentUser.balance + (totalPrice) });   
+            alert("Stock successfully sold!");
+            setShowStockModal(false);
+        } catch (error) {
+            alert(error.response.data.error);
+        }
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -16,7 +72,8 @@ function TableModal(props) {
     };
 
     return(
-        <>
+        <>             
+            {/* STOCK MODAL */}
             <Modal show={showStockModal} onHide={() => setShowStockModal(false)} className='modal'>
                 {stockData ? (
                     <>
@@ -29,6 +86,22 @@ function TableModal(props) {
                         <p>{stockData.price_amount} {stockData.price_currency}</p>
                         <p>{stockData.percent_change}</p>
                         <p>As of: {new Date(stockData.as_of).toLocaleString()}</p>
+                        {currentUser.role === "trader" && (
+                            <form onSubmit={table_header === "PORTFOLIOS" ? handleSubmitSell : handleSubmitBuy}>
+                                <div className="buy_container">
+                                    <p>{table_header === "PORTFOLIOS" ? "SELL :" : "BUY :"}</p>
+                                    <input
+                                        style={{display: "block", margin: "0.75rem 0rem"}}
+                                        type='number'
+                                        name='quantity'
+                                        placeholder='Enter quantity'
+                                        required
+
+                                    />
+                                    <button type='submit' className='btns btn_primary'>Submit</button>
+                                </div>
+                            </form>
+                        )}
                     </Modal.Body>
                     <Modal.Footer>
                         <button className='btns btn_secondary' onClick={() => setShowStockModal(false)}>
@@ -41,6 +114,7 @@ function TableModal(props) {
                 )}
             </Modal>
             
+            {/* TRADER MODAL */}
             <Modal show={showTraderModal} onHide={() => setShowTraderModal(false)} className='modal'>
                 {traderData ? (
                     <>

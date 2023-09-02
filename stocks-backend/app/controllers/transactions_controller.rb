@@ -77,6 +77,14 @@ class TransactionsController < ApplicationController
 
     if transaction.save
       update_portfolio(stock, -quantity)
+
+      if portfolio.quantity - quantity <= 0
+        portfolio.destroy
+      end
+
+      # Flag
+      @portfolio_updated = true
+
       @current_user.update_columns(balance: @current_user.balance + total_price)
       render json: { transaction: transaction }, status: :created
     else
