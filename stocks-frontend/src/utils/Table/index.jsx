@@ -112,7 +112,7 @@ function Table(props) {
                             return(
                                 <tr
                                     onClick={() => {
-                                        table_header !== "TRANSACTIONS" ? (
+                                        table_header !== "TRANSACTIONS" || "PORTFOLIOS" ? (
                                             setShowModal(true), 
                                             fetchData(row.original.id)
                                         ) : null;

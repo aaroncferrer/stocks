@@ -22,10 +22,10 @@ function Sidebar(props){
                 </div>
             </div>
             {currentUser.role === "trader" ? 
-            <button className='btns sidebar_btn balance_container'>
+            <a className='sidebar_btn balance_container'>
                 <span>₱{currentUser.balance}</span>
                 <span>Manage Fund</span>
-            </button> 
+            </a> 
             : null }
             <button
                 className={`btns ${module === 'Stocks' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}
@@ -42,7 +42,12 @@ function Sidebar(props){
             </button> 
             : null }
             {currentUser.role === "trader" ? 
-            <button className='btns btn_primary sidebar_btn'>Portfolio</button> 
+            <button 
+                className={`btns ${module === 'Portfolios' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}
+                onClick={() => handleModuleSelection('Portfolios')}
+            >
+                Portfolio
+            </button> 
             : null }
             <button
                 className={`btns ${module === 'Transactions' ? 'btn_secondary' : 'btn_primary'} sidebar_btn`}

@@ -2,7 +2,6 @@ import { useState } from 'react';
 import Sidebar from '../../components/Sidebar';
 import Stocks from '../../components/Stocks';
 import Transactions from '../../components/Transactions';
-import './adminDashboard.css'
 import Traders from '../../components/Traders';
 
 function AdminDashboard({currentUser}){

@@ -2,7 +2,7 @@ import axios from "axios";
 import { useMemo, useEffect, useState } from "react";
 import Table from '../../utils/Table';
 
-function Traders({ currentUser }) {
+function Transactions({ currentUser }) {
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
@@ -16,7 +16,7 @@ function Traders({ currentUser }) {
                 });
                 setTransactions(response.data);
             } catch (error) {
-                console.error('Error fetching traders', error);
+                console.error('Error fetching transactions', error);
             }
         }
 
@@ -63,4 +63,4 @@ function Traders({ currentUser }) {
     );
 }
 
-export default Traders;
+export default Transactions;
