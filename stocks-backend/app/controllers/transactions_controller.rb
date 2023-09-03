@@ -24,8 +24,6 @@ class TransactionsController < ApplicationController
 
     if @current_user.balance >= total_price
       @current_user.update_columns(balance: @current_user.balance - total_price)
-      # @current_user.save(validate: false) # Revisit this
-      # @current_user.save!
 
       transaction = @current_user.transactions.new(
         stock: stock,
@@ -39,12 +37,10 @@ class TransactionsController < ApplicationController
         update_portfolio(stock, quantity)
         render json: { transaction: transaction }, status: :created
       else
-        # Restore the balance if transaction fails
-        @current_user.update_columns(balance: @current_user.balance + total_price)
-        @current_user.reload
+        # @current_user.update_columns(balance: @current_user.balance + total_price)
+        # @current_user.reload
         render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
       end
-      puts "After transaction - Balance: #{@current_user.balance}"
     else
       render json: { error: 'Insufficient balance' }, status: :unprocessable_entity
     end
@@ -88,9 +84,9 @@ class TransactionsController < ApplicationController
       @current_user.update_columns(balance: @current_user.balance + total_price)
       render json: { transaction: transaction }, status: :created
     else
-      @current_user.update_columns(balance: @current_user.balance - total_price)
-      @current_user.reload
-      render json: { error: 'Failed to create transaction', details: transaction.error.full_messages }, status: :unprocessable_entity
+      # @current_user.update_columns(balance: @current_user.balance - total_price)
+      # @current_user.reload
+      render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
     end
   end
 
