@@ -16,6 +16,13 @@
 require 'simplecov'
 SimpleCov.start
 RSpec.configure do |config|
+  # VCR Configuration
+  require 'vcr'
+  VCR.configure do |vcr_config|
+    vcr_config.cassette_library_dir = 'spec/vcr_cassettes'
+    vcr_config.hook_into :webmock
+  end
+  
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

@@ -3,7 +3,7 @@ require 'jwt_auth'
 
 RSpec.describe "Transactions", type: :request do
   before(:each) do
-    @trader = FactoryBot.create(:trader, balance: 500) # Assuming an initial balance of $1000
+    @trader = FactoryBot.create(:trader, balance: 500) 
     @token = JwtAuth.encode({ trader_id: @trader.id })
   end
 
@@ -56,9 +56,19 @@ RSpec.describe "Transactions", type: :request do
       post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
 
       expect(response).to have_http_status(422)
-      puts response.body
       expect(JSON.parse(response.body)["error"]).to include("Insufficient balance")
       expect(@trader.reload.balance).to eq(500.0) 
+    end
+
+    it "restores balance if transaction fails" do
+      stock = FactoryBot.create(:stock, price_amount: 50.0) 
+      buy_params = { stock_symbol: stock.symbol, quantity: 2 }
+
+      allow_any_instance_of(Transaction).to receive(:save).and_return(false)
+
+      post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(422)
     end
 
   end
@@ -98,6 +108,35 @@ RSpec.describe "Transactions", type: :request do
       expect(response).to have_http_status(404)
       expect(JSON.parse(response.body)["error"]).to include("Stock not found")
       expect(@trader.reload.balance).to eq(500.0)
+    end
+
+    it "restores balance if transaction fails" do
+      stock = FactoryBot.create(:stock, price_amount: 50.0) 
+      buy_params = { stock_symbol: stock.symbol, quantity: 2 }
+      post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      sell_params = { stock_symbol: stock.symbol, quantity: 2 }
+
+      allow_any_instance_of(Transaction).to receive(:save).and_return(false)
+
+      post '/sell', params: sell_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(422)
+    end
+
+     it "destroys the portfolio if quantity becomes zero" do
+      stock = FactoryBot.create(:stock, price_amount: 50.0)
+      buy_params = { stock_symbol: stock.symbol, quantity: 2 }
+      post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      sell_params = { stock_symbol: stock.symbol, quantity: 2 } 
+      post '/sell', params: sell_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(201)
+      expect(JSON.parse(response.body)["transaction"]["action"]).to eq("sell")
+      expect(@trader.reload.balance).to eq(500) 
+
+      expect(Portfolio.find_by(stock: stock)).to be_nil
     end
 
   end

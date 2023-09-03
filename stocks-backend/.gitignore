@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+/spec/vcr_cassettes/
 
 # Ignore bundler config.
 /.bundle
