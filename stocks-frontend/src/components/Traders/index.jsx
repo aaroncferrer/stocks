@@ -8,11 +8,13 @@ function Traders({ currentUser }) {
     const [showTraderModal, setShowTraderModal] = useState(false);
     const [selectedTrader, setSelectedTrader] = useState(null);
     const [showCreateTrader, setShowCreateTrader] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState("all");
+    const [loading, setLoading] = useState(true);
 
     // For debugging
-    useEffect(() => {
-        console.log("selectedTrader", selectedTrader);
-    }, [selectedTrader]);
+    // useEffect(() => {
+    //     console.log("selectedTrader", selectedTrader);
+    // }, [selectedTrader]);
 
     const fetchTraderDetails = async (id) => {
         try {
@@ -23,6 +25,7 @@ function Traders({ currentUser }) {
                 }
             });
             setSelectedTrader(response.data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching trader details', error);
         }
@@ -57,6 +60,7 @@ function Traders({ currentUser }) {
             try {
                 const token = currentUser.token;
                 const response = await axios.get('http://localhost:3000/admin/traders', {
+                    params: { status: selectedStatus },
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -72,7 +76,11 @@ function Traders({ currentUser }) {
         }
 
         fetchTraders();
-    }, [currentUser.token]);
+    }, [currentUser.token, selectedStatus]);
+
+    const handleStatusChange = (event) => {
+        setSelectedStatus(event.target.value);
+    };
     
 
     const columns = useMemo(() => [
@@ -87,6 +95,7 @@ function Traders({ currentUser }) {
         {
             Header: "Status",
             accessor: "status",
+            Cell: ({ value }) => <span style={{ textTransform: 'capitalize' }}>{value}</span>
         },
         {
             Header: "Balance",
@@ -108,6 +117,10 @@ function Traders({ currentUser }) {
             showCreateTrader={showCreateTrader}
             setShowCreateTrader={setShowCreateTrader}
             updateTrader={updateTrader}
+            selectedStatus={selectedStatus}
+            handleStatusChange={handleStatusChange}
+            loading={loading}
+            setLoading={setLoading}
         />
     );
 }

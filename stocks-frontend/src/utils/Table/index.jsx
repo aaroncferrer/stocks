@@ -6,7 +6,7 @@ import AuthModal from "../../components/Modals/AuthModal";
 import './table.css'
 
 function Table(props) {
-    const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders, updateTrader, setPortfolioUpdated } = props;
+    const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders, updateTrader, setPortfolioUpdated, selectedStatus, handleStatusChange, loading, setLoading } = props;
 
     const {
         getTableProps,
@@ -64,6 +64,8 @@ function Table(props) {
                         setShowTraderModal={setShowModal}
                         traderData={selectedTrader}
                         updateTrader={updateTrader}
+                        loading={loading}
+                        setLoading={setLoading}
                     />
                 )}
 
@@ -77,15 +79,8 @@ function Table(props) {
                 )}
                     
                 <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
-                    <h1>{table_header}</h1>
-                    <div className="search_container">
-                        <input
-                            type="text"
-                            value={globalFilter || ''}
-                            onChange={(e) => setGlobalFilter(e.target.value)}
-                            placeholder="Search by name..."
-                        />
-                        {date && <span>As of: {date}</span>}
+                    <div className="table_header_container">
+                        <h1>{table_header}</h1>
                         {table_header === "TRADERS" && 
                         <button
                             style={{padding: "0"}}     
@@ -94,6 +89,27 @@ function Table(props) {
                         >
                             Create Trader
                         </button>}
+                    </div>
+                    
+                    <div className="search_container">
+                        <input
+                            type="text"
+                            value={globalFilter || ''}
+                            onChange={(e) => setGlobalFilter(e.target.value)}
+                            placeholder="Search by name..."
+                        />
+                        {date && <span>As of: {date}</span>}
+                        {table_header === "TRADERS" && (
+                            <div className="filter">
+                                <label>Status Filter:</label>
+                                <select value={selectedStatus} onChange={handleStatusChange}>
+                                    <option value="all">All</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="approved">Approved</option>
+                                </select>
+                            </div>
+                        )}
+                        
                     </div>
                 </div>
 

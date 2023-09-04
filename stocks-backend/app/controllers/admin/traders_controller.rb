@@ -4,7 +4,8 @@ class Admin::TradersController < ApplicationController
     before_action :require_admin
     
     def index
-        traders = pending_traders(params[:status]).order(id: :desc)
+        status = params[:status]
+        traders = filtered_traders(status).order(id: :desc)
         render json: traders
     end
 
@@ -42,6 +43,17 @@ class Admin::TradersController < ApplicationController
     end 
 
     private
+
+    def filtered_traders(status)
+        case status
+        when 'pending'
+            Trader.where(status: 'pending')
+        when 'approved'
+            Trader.where(status: 'approved')
+        else
+            Trader.all
+        end
+    end
 
     def trader_params
         params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :status, :balance)
