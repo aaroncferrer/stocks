@@ -20,6 +20,11 @@ class TransactionsController < ApplicationController
       return
     end
 
+    if quantity <= 0
+      render json: { error: 'Invalid quantity' }, status: :unprocessable_entity
+      return
+    end
+
     total_price = stock.price_amount * quantity
 
     if @current_user.balance >= total_price
@@ -53,6 +58,11 @@ class TransactionsController < ApplicationController
     stock = Stock.find_by(symbol:stock_symbol)
     if stock.nil?
       render json: { error: 'Stock not found' }, status: :not_found
+      return
+    end
+
+    if quantity <= 0
+      render json: { error: 'Invalid quantity' }, status: :unprocessable_entity
       return
     end
 
