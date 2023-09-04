@@ -1,10 +1,11 @@
 import axios from 'axios';
 import './tableModal.css'
 import Modal from 'react-bootstrap/Modal'
+import { useEffect, useState } from 'react';
 
 function TableModal(props) {
     const { currentUser, setCurrentUser, table_header, showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader, setPortfolioUpdated } = props;
-
+    
     const handleSubmitBuy = async (e) => {
         e.preventDefault();
         
@@ -60,16 +61,37 @@ function TableModal(props) {
         }
     };
 
+    const [traderFormData, setTraderFormData] = useState({
+        first_name: "",
+        last_name: "",
+        email: "",
+        status: ""
+    });
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setTraderFormData({
+            ...traderFormData,
+            [name]: value
+        });
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        const updatedData = {
-            first_name: e.target.first_name.value,
-            last_name: e.target.last_name.value,
-            email: e.target.email.value,
-            status: e.target.status.value,
-        };
-        updateTrader(traderData.id, updatedData);
+        updateTrader(traderData.id, traderFormData);
     };
+
+    useEffect(() => {
+        if (traderData) {
+            setTraderFormData({
+                first_name: traderData.first_name,
+                last_name: traderData.last_name,
+                email: traderData.email,
+                status: traderData.status
+            });
+        }
+    }, [traderData]);
+
 
     return(
         <>             
@@ -116,7 +138,7 @@ function TableModal(props) {
             
             {/* TRADER MODAL */}
             <Modal show={showTraderModal} onHide={() => setShowTraderModal(false)} className='modal'>
-                {traderData ? (
+                {(traderData)  ? (
                     <>
                     <Modal.Header closeButton className=''>
                         <h2>Trader Details</h2>
@@ -126,27 +148,36 @@ function TableModal(props) {
                         <input
                             type="text"
                             name="first_name"
-                            defaultValue={traderData.first_name}
+                            value={traderFormData.first_name}
+                            onChange={handleInputChange}
                         />
                         <input
                             type="text"
                             name="last_name"
-                            defaultValue={traderData.last_name}
+                            value={traderFormData.last_name}
+                            onChange={handleInputChange}
                         />
                         <input
                             type="text"
                             name="email"
-                            defaultValue={traderData.email}
+                            value={traderFormData.email}
+                            onChange={handleInputChange}
                         />
-                        <input
-                            type="text"
-                            name="status"
-                            defaultValue={traderData.status}
-                        />
+                         <div className="status-dropdown">
+                            <label style={{marginRight: "0.5rem"}}>Status:</label>
+                            <select
+                                name="status"
+                                value={traderFormData.status}
+                                onChange={handleInputChange}
+                            >
+                                <option value="approved">Approved</option>
+                                <option value="pending">Pending</option>
+                            </select>
+                        </div>
                         <p>Balance: {traderData.balance}</p>
                         <p>Date joined: {new Date(traderData.created_at).toLocaleString()}</p>
                         <p>Date approved: {traderData.status === "pending" ? "N/A" : new Date(traderData.confirmed_at).toLocaleString()}</p>
-                        <button>Submit</button>
+                        <button className='btns btn_primary'>Submit</button>
                     </Modal.Body>
                     </form>
                     <Modal.Footer>

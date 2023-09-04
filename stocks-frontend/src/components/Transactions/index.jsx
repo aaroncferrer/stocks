@@ -14,7 +14,11 @@ function Transactions({ currentUser }) {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setTransactions(response.data);
+                const formattedTransactions = response.data.map(transaction => ({
+                    ...transaction,
+                    total_price: parseFloat(transaction.total_price).toFixed(2)
+                }));
+                setTransactions(formattedTransactions);
             } catch (error) {
                 console.error('Error fetching transactions', error);
             }

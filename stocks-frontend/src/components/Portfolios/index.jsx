@@ -16,6 +16,7 @@ function Portfolios({ currentUser, setCurrentUser }) {
                     Authorization: `Bearer ${token}`
                 }
             });
+            console.log(response.data);
             const portfolioData = response.data;
             setSelectedStock({
                 name: portfolioData.stock.name,
@@ -50,10 +51,6 @@ function Portfolios({ currentUser, setCurrentUser }) {
 
     const columns = useMemo(() => [
         {
-            Header: "",
-            accessor: "id",
-        },
-        {
             Header: "Stock Symbol",
             accessor: "stock_symbol",
         },
@@ -75,7 +72,7 @@ function Portfolios({ currentUser, setCurrentUser }) {
         },
         {
             Header: "Total Price",
-            accessor: (row) => `PHP ${row.total_amount}`,
+            accessor: (row) => `PHP ${row.total_amount.toFixed(2)}`
         }
     ], []);
 

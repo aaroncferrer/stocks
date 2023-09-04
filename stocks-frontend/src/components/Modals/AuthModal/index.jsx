@@ -2,6 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import Modal from 'react-bootstrap/Modal';
 import { useNavigate } from 'react-router-dom';
+import Spinner from '../../Spinner'
 
 import './authModal.css'
 
@@ -10,6 +11,7 @@ function AuthModal(props){
 
     const navigate = useNavigate();
     
+    const [loading, setLoading] = useState(false);
     const [currentUserType, setCurrentUserType] = useState("admin");
     const [loginFormData, setLoginFormData] = useState({
         email: '',
@@ -33,9 +35,10 @@ function AuthModal(props){
 
     const handleLogin = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
         try{
-            const response = await axios.post(`http://localhost:3000/${currentUserType}/login`, loginFormData);
+            const response = await axios.post(`https://stocks-avion.onrender.com/${currentUserType}/login`, loginFormData);
             const data = response.data;
             setCurrentUser({...data[currentUserType], token: data.token, role: currentUserType})
             console.log(data);
@@ -49,6 +52,7 @@ function AuthModal(props){
             }else {
                 navigate('/trader')
             }
+            setLoading(false)
             setShowLogin(false);
         }catch(error){
             alert(error.response.data.error);
@@ -112,6 +116,10 @@ function AuthModal(props){
         
     return(
         <>
+        {loading ? (
+            <Spinner />
+        ) : null}
+
         {/* SIGN IN */}
         <Modal show={showLogin} onHide={() => setShowLogin(false)} className='modal'>
             <Modal.Header className='modal_header'>

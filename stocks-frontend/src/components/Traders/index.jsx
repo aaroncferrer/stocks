@@ -8,6 +8,13 @@ function Traders({ currentUser }) {
     const [showTraderModal, setShowTraderModal] = useState(false);
     const [selectedTrader, setSelectedTrader] = useState(null);
     const [showCreateTrader, setShowCreateTrader] = useState(false);
+    const [selectedStatus, setSelectedStatus] = useState("all");
+    const [loading, setLoading] = useState(true);
+
+    // For debugging
+    // useEffect(() => {
+    //     console.log("selectedTrader", selectedTrader);
+    // }, [selectedTrader]);
 
     const fetchTraderDetails = async (id) => {
         try {
@@ -18,6 +25,7 @@ function Traders({ currentUser }) {
                 }
             });
             setSelectedTrader(response.data);
+            setLoading(false);
         } catch (error) {
             console.error('Error fetching trader details', error);
         }
@@ -36,14 +44,13 @@ function Traders({ currentUser }) {
             },
             });
             alert("Trader updated successfully")
-            // Update traders state
             setTraders((prevTraders) =>
             prevTraders.map((trader) =>
                 trader.id === id ? { ...trader, ...updatedData } : trader
             ));
             setShowTraderModal(false);
         }catch(error) {
-            console.error('Error updating trader', error.response.data.errors[0]);
+            console.error('Error updating trader', error);
         }
     };
 
@@ -53,18 +60,27 @@ function Traders({ currentUser }) {
             try {
                 const token = currentUser.token;
                 const response = await axios.get('http://localhost:3000/admin/traders', {
+                    params: { status: selectedStatus },
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setTraders(response.data);
+                const formattedTraders = response.data.map(trader => ({
+                    ...trader,
+                    balance: parseFloat(trader.balance).toFixed(2) // Round to 2 decimal points
+                }));
+                setTraders(formattedTraders);
             } catch (error) {
                 console.error('Error fetching traders', error);
             }
         }
 
         fetchTraders();
-    }, [currentUser.token]);
+    }, [currentUser.token, selectedStatus]);
+
+    const handleStatusChange = (event) => {
+        setSelectedStatus(event.target.value);
+    };
     
 
     const columns = useMemo(() => [
@@ -79,6 +95,7 @@ function Traders({ currentUser }) {
         {
             Header: "Status",
             accessor: "status",
+            Cell: ({ value }) => <span style={{ textTransform: 'capitalize' }}>{value}</span>
         },
         {
             Header: "Balance",
@@ -100,6 +117,10 @@ function Traders({ currentUser }) {
             showCreateTrader={showCreateTrader}
             setShowCreateTrader={setShowCreateTrader}
             updateTrader={updateTrader}
+            selectedStatus={selectedStatus}
+            handleStatusChange={handleStatusChange}
+            loading={loading}
+            setLoading={setLoading}
         />
     );
 }
