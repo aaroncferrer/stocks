@@ -2,7 +2,7 @@ require 'jwt_auth'
 
 class PortfoliosController < ApplicationController
   def index
-    portfolio = @current_user.portfolios.includes(:stock)
+    portfolio = @current_user.portfolios.includes(:stock).order(id: :desc)
     render json: portfolio, include: :stock
   end
 

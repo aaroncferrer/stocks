@@ -9,6 +9,11 @@ function Traders({ currentUser }) {
     const [selectedTrader, setSelectedTrader] = useState(null);
     const [showCreateTrader, setShowCreateTrader] = useState(false);
 
+    // For debugging
+    useEffect(() => {
+        console.log("selectedTrader", selectedTrader);
+    }, [selectedTrader]);
+
     const fetchTraderDetails = async (id) => {
         try {
             const token = currentUser.token;
@@ -36,14 +41,13 @@ function Traders({ currentUser }) {
             },
             });
             alert("Trader updated successfully")
-            // Update traders state
             setTraders((prevTraders) =>
             prevTraders.map((trader) =>
                 trader.id === id ? { ...trader, ...updatedData } : trader
             ));
             setShowTraderModal(false);
         }catch(error) {
-            console.error('Error updating trader', error.response.data.errors[0]);
+            console.error('Error updating trader', error);
         }
     };
 
@@ -57,7 +61,11 @@ function Traders({ currentUser }) {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setTraders(response.data);
+                const formattedTraders = response.data.map(trader => ({
+                    ...trader,
+                    balance: parseFloat(trader.balance).toFixed(2) // Round to 2 decimal points
+                }));
+                setTraders(formattedTraders);
             } catch (error) {
                 console.error('Error fetching traders', error);
             }

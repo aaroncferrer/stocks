@@ -6,7 +6,7 @@ import AuthModal from "../../components/Modals/AuthModal";
 import './table.css'
 
 function Table(props) {
-    const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders,updateTrader, setPortfolioUpdated } = props;
+    const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders, updateTrader, setPortfolioUpdated } = props;
 
     const {
         getTableProps,

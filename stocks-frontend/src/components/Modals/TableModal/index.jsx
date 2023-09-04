@@ -146,7 +146,7 @@ function TableModal(props) {
                         <p>Balance: {traderData.balance}</p>
                         <p>Date joined: {new Date(traderData.created_at).toLocaleString()}</p>
                         <p>Date approved: {traderData.status === "pending" ? "N/A" : new Date(traderData.confirmed_at).toLocaleString()}</p>
-                        <button>Submit</button>
+                        <button className='btns btn_primary'>Submit</button>
                     </Modal.Body>
                     </form>
                     <Modal.Footer>

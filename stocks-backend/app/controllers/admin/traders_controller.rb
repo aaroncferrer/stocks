@@ -4,7 +4,7 @@ class Admin::TradersController < ApplicationController
     before_action :require_admin
     
     def index
-        traders = pending_traders(params[:status])
+        traders = pending_traders(params[:status]).order(id: :desc)
         render json: traders
     end
 

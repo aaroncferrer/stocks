@@ -4,6 +4,7 @@
     flex-direction: column;
     justify-content: space-between;
     font-family: var(--font-primary);
+    margin-left: 1rem;
 }
 
 .utilTable_container h1 {
