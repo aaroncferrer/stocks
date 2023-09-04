@@ -4,7 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import { useEffect, useState } from 'react';
 
 function TableModal(props) {
-    const { currentUser, setCurrentUser, table_header, showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader, setPortfolioUpdated, loading, setLoading } = props;
+    const { currentUser, setCurrentUser, table_header, showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader, setPortfolioUpdated } = props;
     
     const handleSubmitBuy = async (e) => {
         e.preventDefault();
@@ -89,8 +89,6 @@ function TableModal(props) {
                 email: traderData.email,
                 status: traderData.status
             });
-        } else {
-            setLoading(true);
         }
     }, [traderData]);
 
@@ -140,7 +138,7 @@ function TableModal(props) {
             
             {/* TRADER MODAL */}
             <Modal show={showTraderModal} onHide={() => setShowTraderModal(false)} className='modal'>
-                {(traderData && !loading)  ? (
+                {(traderData)  ? (
                     <>
                     <Modal.Header closeButton className=''>
                         <h2>Trader Details</h2>

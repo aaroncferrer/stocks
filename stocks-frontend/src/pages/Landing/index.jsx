@@ -16,6 +16,7 @@ function Landing({setCurrentUser}) {
     }, []);
 
     return(
+        <>
         <main className="landing_container">
             <Nav setCurrentUser={setCurrentUser}/>
 
@@ -55,6 +56,7 @@ function Landing({setCurrentUser}) {
             </section>
 
         </main>
+        </>
     )
 }
 
