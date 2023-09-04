@@ -13,7 +13,7 @@ function Stocks({ currentUser, setCurrentUser }) {
     const fetchStockDetails = async (id) => {
         try {
             const token = currentUser.token;
-            const response = await axios.get(`http://localhost:3000/stocks/${id}`, {
+            const response = await axios.get(`https://stocks-avion.onrender.com/stocks/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -28,7 +28,7 @@ function Stocks({ currentUser, setCurrentUser }) {
         const fetchStocks = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('http://localhost:3000/stocks', {
+                const response = await axios.get('https://stocks-avion.onrender.com/stocks', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

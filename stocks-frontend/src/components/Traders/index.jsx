@@ -19,7 +19,7 @@ function Traders({ currentUser }) {
     const fetchTraderDetails = async (id) => {
         try {
             const token = currentUser.token;
-            const response = await axios.get(`http://localhost:3000/admin/traders/${id}`, {
+            const response = await axios.get(`https://stocks-avion.onrender.com/admin/traders/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -34,7 +34,7 @@ function Traders({ currentUser }) {
     const updateTrader = async (id, updatedData) => {
         try {
             const token = currentUser.token;
-            await axios.patch(`http://localhost:3000/admin/traders/${id}`, 
+            await axios.patch(`https://stocks-avion.onrender.com/admin/traders/${id}`, 
             {
                 trader: updatedData
             },
@@ -59,7 +59,7 @@ function Traders({ currentUser }) {
         const fetchTraders = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('http://localhost:3000/admin/traders', {
+                const response = await axios.get('https://stocks-avion.onrender.com/admin/traders', {
                     params: { status: selectedStatus },
                     headers: {
                         Authorization: `Bearer ${token}`

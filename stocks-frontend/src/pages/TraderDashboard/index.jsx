@@ -22,7 +22,7 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.post( 'http://localhost:3000/traders/deposit',
+            await axios.post( 'https://stocks-avion.onrender.com/traders/deposit',
                 { 
                     amount: depositAmount 
                 },
@@ -51,7 +51,7 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.post('http://localhost:3000/traders/withdraw',
+            await axios.post('https://stocks-avion.onrender.com/traders/withdraw',
                 { 
                     amount: withdrawAmount 
                 },

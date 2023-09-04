@@ -9,7 +9,7 @@ function Transactions({ currentUser }) {
         const fetchTransactions = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('http://localhost:3000/transactions', {
+                const response = await axios.get('https://stocks-avion.onrender.com/transactions', {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

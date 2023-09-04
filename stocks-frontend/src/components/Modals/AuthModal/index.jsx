@@ -56,6 +56,7 @@ function AuthModal(props){
             setShowLogin(false);
         }catch(error){
             alert(error.response.data.error);
+            setLoading(false);
         }
     }
 
@@ -63,7 +64,7 @@ function AuthModal(props){
         e.preventDefault();
 
         try{
-            const response = await axios.post('http://localhost:3000/trader/signup', 
+            const response = await axios.post('https://stocks-avion.onrender.com/trader/signup', 
             {
                 trader: signupFormData
             });
@@ -88,7 +89,7 @@ function AuthModal(props){
 
         try{
             const token = currentUser.token
-            const response = await axios.post('http://localhost:3000/admin/traders',
+            const response = await axios.post('https://stocks-avion.onrender.com/admin/traders',
             {
                 trader: signupFormData
             },

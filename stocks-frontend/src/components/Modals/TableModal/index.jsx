@@ -15,7 +15,7 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            await axios.post('http://localhost:3000/buy', 
+            await axios.post('https://stocks-avion.onrender.com/buy', 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
@@ -41,7 +41,7 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            const response = await axios.post('http://localhost:3000/sell', 
+            const response = await axios.post('https://stocks-avion.onrender.com/sell', 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
