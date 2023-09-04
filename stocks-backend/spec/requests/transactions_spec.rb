@@ -50,6 +50,16 @@ RSpec.describe "Transactions", type: :request do
       expect(@trader.reload.balance).to eq(500.0)
     end
 
+    it "doesn't allow the trader to buy because quantity is invalid" do
+      stock = FactoryBot.create(:stock, price_amount: 50.0) 
+      buy_params = { stock_symbol: stock.symbol, quantity: -2 }
+      post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(422)
+      expect(JSON.parse(response.body)["error"]).to include("Invalid quantity")
+      expect(@trader.reload.balance).to eq(500.0)
+    end
+
     it "doesn't allow the trader to buy stocks due to insufficient balance" do
       stock = FactoryBot.create(:stock, price_amount: 50.0) 
       buy_params = { stock_symbol: stock.symbol, quantity: 11 }
@@ -87,7 +97,7 @@ RSpec.describe "Transactions", type: :request do
       expect(@trader.reload.balance).to eq(450.0) 
     end
 
-    it "doesn't allow the trader to sell stocks" do
+    it "doesn't allow the trader to sell due to insufficient stock qty" do
       stock = FactoryBot.create(:stock, price_amount: 50.0)
       buy_params = { stock_symbol: stock.symbol, quantity: 2 }
       post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
@@ -97,6 +107,19 @@ RSpec.describe "Transactions", type: :request do
 
       expect(response).to have_http_status(422)
       expect(JSON.parse(response.body)["error"]).to include("Not enough stocks to sell")
+      expect(@trader.reload.balance).to eq(400.0) 
+    end
+
+    it "doesn't allow the trader to sell stocks due to invalid qty input" do
+      stock = FactoryBot.create(:stock, price_amount: 50.0)
+      buy_params = { stock_symbol: stock.symbol, quantity: 2 }
+      post '/buy', params: buy_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      sell_params = { stock_symbol: stock.symbol, quantity: -2 }
+      post '/sell', params: sell_params, headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(422)
+      expect(JSON.parse(response.body)["error"]).to include("Invalid quantity")
       expect(@trader.reload.balance).to eq(400.0) 
     end
 
