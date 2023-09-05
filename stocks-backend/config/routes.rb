@@ -5,9 +5,7 @@ Rails.application.routes.draw do
   post '/trader/signup', to: 'trader_auth#signup'
   post '/trader/login', to: 'trader_auth#login'
 
-  resources :transactions, only: [:index]
-  post '/buy', to: 'transactions#buy'
-  post 'sell', to: 'transactions#sell'
+  resources :transactions, only: [:index, :create]
 
   namespace :admin do
     resources :traders, only: [:index, :show, :create, :update]

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_28_100302) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_05_062538) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,6 +32,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_28_100302) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "stock_symbol"
+    t.boolean "archived"
     t.index ["stock_id"], name: "index_portfolios_on_stock_id"
     t.index ["trader_id"], name: "index_portfolios_on_trader_id"
   end

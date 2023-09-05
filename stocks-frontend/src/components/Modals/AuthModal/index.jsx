@@ -55,8 +55,8 @@ function AuthModal(props){
             setLoading(false)
             setShowLogin(false);
         }catch(error){
-            alert(error.response.data.error);
             setLoading(false);
+            alert(error.response.data.error);
         }
     }
 
