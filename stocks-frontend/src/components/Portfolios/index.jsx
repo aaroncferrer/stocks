@@ -40,7 +40,8 @@ function Portfolios({ currentUser, setCurrentUser }) {
                         Authorization: `Bearer ${token}`
                     }
                 });
-                setPortfolios(response.data);
+                const filteredPortfolios = response.data.filter((portfolio) => portfolio.quantity > 0);
+                setPortfolios(filteredPortfolios);
             } catch (error) {
                 console.error('Error fetching portfolios', error);
             }

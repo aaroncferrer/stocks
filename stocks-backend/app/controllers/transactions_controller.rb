@@ -10,11 +10,13 @@ class TransactionsController < ApplicationController
     render json: transactions, include: [:trader, :stock]
   end
 
-  def buy
+  def create
     stock_symbol = params[:stock_symbol]
     quantity = params[:quantity].to_i
+    transaction_type = params[:transaction_type]
 
     stock = Stock.find_by(symbol: stock_symbol)
+
     if stock.nil?
       render json: { error: 'Stock not found' }, status: :not_found
       return
@@ -25,25 +27,37 @@ class TransactionsController < ApplicationController
       return
     end
 
-    total_price = stock.price_amount * quantity
+    if transaction_type == 'buy'
+      handle_buy_transaction(stock, quantity)
+    elsif transaction_type == 'sell'
+      handle_sell_transaction(stock, quantity)
+    else
+      render json: { error: 'Invalid transaction type' }, status: :unprocessable_entity
+    end
+  end
+
+  private
+
+  def handle_buy_transaction(stock, quantity)
+    transaction = @current_user.transactions.new(
+      stock: stock,
+      action: 'buy',
+      quantity: quantity,
+      stock_symbol: stock.symbol
+    )
+
+    total_price = transaction.calculate_total_price
 
     if @current_user.balance >= total_price
       @current_user.update_columns(balance: @current_user.balance - total_price)
-
-      transaction = @current_user.transactions.new(
-        stock: stock,
-        action: 'buy',
-        quantity: quantity,
-        total_price: total_price,
-        stock_symbol: stock_symbol
-      )
+      transaction.total_price = total_price
 
       if transaction.save
-        update_portfolio(stock, quantity)
+        portfolio = @current_user.portfolios.find_or_initialize_by(stock: stock)
+        portfolio.update_portfolio(stock, quantity)
+
         render json: { transaction: transaction }, status: :created
       else
-        # @current_user.update_columns(balance: @current_user.balance + total_price)
-        # @current_user.reload
         render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
       end
     else
@@ -51,72 +65,37 @@ class TransactionsController < ApplicationController
     end
   end
 
-  def sell
-    stock_symbol = params[:stock_symbol]
-    quantity = params[:quantity].to_i 
-
-    stock = Stock.find_by(symbol:stock_symbol)
-    if stock.nil?
-      render json: { error: 'Stock not found' }, status: :not_found
-      return
-    end
-
-    if quantity <= 0
-      render json: { error: 'Invalid quantity' }, status: :unprocessable_entity
-      return
-    end
-
+  def handle_sell_transaction(stock, quantity)
     portfolio = @current_user.portfolios.find_by(stock: stock)
+
     if portfolio.nil? || portfolio.quantity < quantity
       render json: { error: 'Not enough stocks to sell' }, status: :unprocessable_entity
       return
     end
 
-    total_price = stock.price_amount * quantity
-
     transaction = @current_user.transactions.new(
       stock: stock,
       action: 'sell',
-      quantity: quantity,
-      total_price: total_price
+      quantity: quantity
     )
 
+    total_price = transaction.calculate_total_price
+    
     if transaction.save
-      update_portfolio(stock, -quantity)
+      portfolio.update_portfolio(stock, -quantity)
+      transaction.total_price = total_price
 
-      if portfolio.quantity - quantity <= 0
-        portfolio.destroy
+      if portfolio.quantity <= 0
+        portfolio.archive
       end
 
-      # Flag
-      @portfolio_updated = true
+      portfolio_updated = true
 
       @current_user.update_columns(balance: @current_user.balance + total_price)
       render json: { transaction: transaction }, status: :created
     else
-      # @current_user.update_columns(balance: @current_user.balance - total_price)
-      # @current_user.reload
       render json: { error: 'Failed to create transaction', details: transaction.errors.full_messages }, status: :unprocessable_entity
     end
   end
-
-	private
-
-	def update_portfolio(stock, quantity)
-		portfolio = @current_user.portfolios.find_or_initialize_by(stock: stock)
-
-		if portfolio.new_record?
-			portfolio.stock_symbol = stock.symbol
-			portfolio.quantity = quantity
-			portfolio.current_price = stock.price_amount
-			portfolio.total_amount = quantity * stock.price_amount
-		else
-			portfolio.quantity += quantity
-			portfolio.current_price = stock.price_amount
-			portfolio.total_amount = portfolio.quantity * stock.price_amount
-		end
-
-		portfolio.save
-	end
 
 end

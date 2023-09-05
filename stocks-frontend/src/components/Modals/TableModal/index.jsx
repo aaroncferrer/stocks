@@ -15,10 +15,11 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            await axios.post('https://stocks-avion.onrender.com/buy', 
+            await axios.post('https://stocks-avion.onrender.com/transactions', 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
+                transaction_type: 'buy'
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -28,7 +29,7 @@ function TableModal(props) {
             alert("Stock successfully bought!");
             setShowStockModal(false);
         } catch (error) {
-            alert(error.response.data.error);
+            console.error(error);
         }
     };
 
@@ -41,10 +42,11 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            const response = await axios.post('https://stocks-avion.onrender.com/sell', 
+            const response = await axios.post('https://stocks-avion.onrender.com/transactions', 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
+                transaction_type: 'sell'
             }, {
                 headers: {
                     Authorization: `Bearer ${token}`

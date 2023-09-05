@@ -132,10 +132,13 @@ function Table(props) {
                             return(
                                 <tr
                                     onClick={() => {
-                                        table_header !== "TRANSACTIONS" ? (
-                                            setShowModal(true), 
-                                            fetchData(row.original.id)
-                                        ) : null;
+                                        if (table_header !== "TRANSACTIONS") {
+                                            setShowModal(true);
+                                            fetchData(row.original.id);
+                                            if (table_header === "PORTFOLIOS") {
+                                                setPortfolioUpdated(false);
+                                            }
+                                        }
                                     }}
                                     {...row.getRowProps()}
                                 >
