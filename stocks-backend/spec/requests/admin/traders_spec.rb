@@ -27,6 +27,17 @@ RSpec.describe "Admin::Traders", type: :request do
       expect(traders.length).to eq(2)
     end
 
+    it "returns all pending traders" do
+      FactoryBot.create(:trader, email: "trader1@mail.com", status: "pending")
+      FactoryBot.create(:trader, email: "trader2@mail.com", status: "approved")
+      FactoryBot.create(:trader, email: "trader3@mail.com", status: "approved")
+      get '/admin/traders?status=approved', headers: { "Authorization" => "Bearer #{@token}" }
+
+      expect(response).to have_http_status(200)
+      traders = JSON.parse(response.body)
+      expect(traders.length).to eq(2)
+    end
+
     it "returns an error because user is not an admin" do
       trader = FactoryBot.create(:trader, email: "user@mail.com")
       token = JwtAuth.encode({ trader_id: trader.id })

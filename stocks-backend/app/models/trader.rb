@@ -14,6 +14,18 @@ class Trader < ApplicationRecord
 
     validate :unique_email_across_models, on: :create
 
+    def deposit(amount)
+        self.balance += amount
+        save
+    end
+
+    def withdraw(amount)
+        return false if amount <= 0 || balance < amount
+
+        self.balance -= amount
+        save
+    end
+
     private
 
     def unique_email_across_models

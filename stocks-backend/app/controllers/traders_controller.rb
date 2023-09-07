@@ -1,23 +1,27 @@
 require 'jwt_auth'
 
 class TradersController < ApplicationController
-  def deposit
+  def update
     amount = params[:amount].to_f
-    if amount.positive?
-      @current_user.update_columns(balance: @current_user.balance + amount)
-      render json: { message: 'Deposit successful', balance: @current_user.balance }
-    else
-      render json: { error: 'Invalid deposit amount' }, status: :unprocessable_entity
-    end
-  end
+    action = params[:action_type]
 
-  def withdraw
-    amount = params[:amount].to_f
-    if amount.positive? && @current_user.balance >= amount
-      @current_user.update_columns(balance: @current_user.balance - amount)
-      render json: { message: 'Withdrawal successful', balance: @current_user.balance }
-    else
-      render json: { error: 'Invalid withdrawal amount or insufficient balance' }, status: :unprocessable_entity
+    case action
+    when 'deposit'
+      if amount.positive? && @current_user.deposit(amount)
+        render json: { message: 'Deposit successful', balance: @current_user.balance }
+      else 
+        render json: { error: 'Invalid deposit amount' }, status: :unprocessable_entity
+      end
+    when 'withdraw'
+      if amount.positive? && @current_user.withdraw(amount)
+        render json: { message: 'Withdrawal successful', balance: @current_user.balance }
+      elsif amount > @current_user.balance
+        render json: { error: 'Insufficient balance' }, status: :unprocessable_entity
+      else
+        render json: { error: 'Invalid withdrawal amount' }, status: :unprocessable_entity
+      end
+    else 
+      render json: { error: 'Invalid action' }, status: :unprocessable_entity
     end
   end
 end
