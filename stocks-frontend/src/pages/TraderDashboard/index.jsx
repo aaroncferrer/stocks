@@ -22,9 +22,10 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.post( 'https://stocks-avion.onrender.com/traders/deposit',
+            await axios.patch( `https://stocks-avion.onrender.com/traders/${currentUser.id}`,
                 { 
-                    amount: depositAmount 
+                    amount: depositAmount,
+                    action_type: 'deposit'
                 },
                 {
                     headers: {
@@ -51,9 +52,10 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.post('https://stocks-avion.onrender.com/traders/withdraw',
+            await axios.patch(`https://stocks-avion.onrender.com/traders/${currentUser.id}`,
                 { 
-                    amount: withdrawAmount 
+                    amount: withdrawAmount,
+                    action_type: 'withdraw'
                 },
                 {
                     headers: {
