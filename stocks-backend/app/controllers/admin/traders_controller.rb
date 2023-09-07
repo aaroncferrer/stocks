@@ -59,14 +59,6 @@ class Admin::TradersController < ApplicationController
         params.require(:trader).permit(:first_name, :last_name, :email, :password, :password_confirmation, :status, :balance)
     end
 
-    def pending_traders(status = nil)
-        if status.present?
-            Trader.where(status: status)
-        else
-            Trader.all
-        end
-    end
-
     def require_admin
         unless @current_user.is_a?(Admin)
             render json: { error: 'Only admin users are allowed to perform this action' }, status: :forbidden
