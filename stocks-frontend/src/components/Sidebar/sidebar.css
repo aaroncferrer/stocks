@@ -58,11 +58,6 @@
     border-radius: 2px;
 }
 
-/* .balance_container:hover {
-    background: var(--color-light);
-    color: var(--color-bg);
-} */
-
 .balance_container > span:nth-child(1) {
   font-size: 1.7rem;
 }
@@ -86,6 +81,15 @@
 }
 
 .signout_btn {
-    margin-top: auto; /* Push the button to the bottom */
+    margin-top: auto; 
     align-self: flex-end;
+}
+
+@media screen and (max-width: 1024px){
+    .sidebar {
+        height: auto;
+    }
+    .signout_btn {
+        margin: 0;
+    }
 }

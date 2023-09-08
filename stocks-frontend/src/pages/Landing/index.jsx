@@ -7,7 +7,7 @@ import './landing.css'
 import visionData from './visions.json';
 import Nav from '../../components/Nav';
 
-function Landing({setCurrentUser}) {
+function Landing({setCurrentUser, apiBaseUrl}) {
     const [showSignup, setShowSignup] = useState(false);
     const visions = visionData.visions;
 

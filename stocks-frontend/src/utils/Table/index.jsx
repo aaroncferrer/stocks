@@ -1,12 +1,22 @@
-import React from "react";
 import { useTable, usePagination, useGlobalFilter, useSortBy } from 'react-table';
 import { BsArrowLeft, BsArrowRight } from 'react-icons/bs';
 import TableModal from "../../components/Modals/TableModal";
 import AuthModal from "../../components/Modals/AuthModal";
 import './table.css'
+import { useEffect } from 'react';
 
 function Table(props) {
     const { currentUser, setCurrentUser, columns, data, table_header, date, setShowModal, fetchData, showStockModal, selectedStock, showTraderModal, selectedTrader, showCreateTrader, setShowCreateTrader, traders, updateTrader, setPortfolioUpdated, selectedStatus, handleStatusChange, loading, setLoading } = props;
+
+    const desktopPageSize = 11;
+    const tabletPageSize = 10;
+    const mobilePageSize = 5;
+    
+    const getInitialPageSize = () => {
+        if (window.innerWidth <= 768) return mobilePageSize;
+        if (window.innerWidth <= 1024) return tabletPageSize;
+        return desktopPageSize;
+    };
 
     const {
         getTableProps,
@@ -14,21 +24,22 @@ function Table(props) {
         headerGroups,
         page,
         prepareRow,
-        state: { pageIndex, globalFilter },
+        state: { pageIndex, globalFilter, pageSize },
         canPreviousPage,
         canNextPage,
         pageOptions,
         gotoPage,
         nextPage,
         previousPage,
-        setGlobalFilter
+        setGlobalFilter,
+        setPageSize
     } = useTable(
         {
             columns,
             data,
             initialState: {
                 pageIndex: 0,
-                pageSize: 11,
+                pageSize: getInitialPageSize(),
                 sortBy: [
                     {
                         id: 'id',
@@ -41,6 +52,20 @@ function Table(props) {
     useSortBy,
     usePagination 
     );
+
+    useEffect(() => {
+        const handleResize = () => {
+            const newPageSize = getInitialPageSize();
+            if (newPageSize !== pageSize) {
+                setPageSize(newPageSize);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [pageSize, setPageSize]);
 
     return (
         <>
@@ -78,7 +103,7 @@ function Table(props) {
                     />
                 )}
                     
-                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                <div style={{display: "flex", justifyContent: "space-between", alignItems: "center"}} className='table_header_wrapper'>
                     <div className="table_header_container">
                         <h1>{table_header}</h1>
                         {table_header === "TRADERS" && 
@@ -163,8 +188,8 @@ function Table(props) {
                         <BsArrowRight />
                     </button>
                     <span>Page {pageIndex + 1} of {pageOptions.length}</span>
-                    <span>|</span>
-                    <div>
+                    <span className='pagination_divider'>|</span>
+                    <div className='pagination_go_to'>
                         <span>GO TO PAGE : </span> 
                         <input
                             type="number"

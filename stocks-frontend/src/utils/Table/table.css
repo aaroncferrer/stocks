@@ -92,3 +92,29 @@ tbody tr:hover {
     padding: 0.3rem 1rem;
 }
 
+@media screen and (max-width: 1024px){
+    .utilTable_container {
+        margin-left: 0;
+        gap: 1rem;
+    }
+    .search_container span {
+        text-align: center;
+    }
+    .table_container {
+        height: auto;
+    }
+    .pagination {
+        margin-bottom: 3rem;
+    }
+}
+
+@media screen and (max-width: 600px){
+	.table_header_wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .pagination_go_to, .pagination_divider {
+        display: none;
+    }
+}
