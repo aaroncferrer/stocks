@@ -83,3 +83,12 @@ body {
 	position: relative;
 	height: 100vh;
 }
+
+@media screen and (max-width: 1024px){
+	.page {
+		height: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 3rem;
+	}
+}

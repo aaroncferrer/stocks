@@ -42,3 +42,9 @@
 .nav_actions a:hover::before {
     width: 100%;
 }
+
+@media screen and (max-width: 600px){
+	.nav_actions a {
+        display: none;
+    }
+}

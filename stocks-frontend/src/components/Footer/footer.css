@@ -5,9 +5,13 @@ footer {
     font-size: 0.8rem;
     text-align: center;
     padding: 1rem 0;
+}
 
-    /* TEMPORARY */
-    /* position: absolute;
-    bottom: 0;
-    width: 100%; */
+@media screen and (max-width: 1024px){
+	footer {
+        position: fixed;
+        width: 100%;
+        bottom: 0;
+        z-index: 999;
+    }
 }

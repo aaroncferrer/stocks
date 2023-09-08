@@ -95,3 +95,57 @@
     font-family: var(--font-primary);
     font-size: 0.9rem;
 }
+
+@media screen and (max-width: 1024px){
+    .landing_text {
+        height: 55vh;
+        width: 80%;
+    }
+	.landing_about {
+        padding: 3rem 1rem 5rem;
+    }
+    .vision_item {
+        width: 90%;
+    }
+    .vision_item h5 {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .vision_container {
+        position: relative;
+        z-index: 999;
+    }
+    .globe_bg{
+        z-index: -999;
+    }
+	.landing_text {
+        text-align: center;
+    }
+    .landing_text h1 {
+    font-size: 2rem;
+    }
+
+    .landing_text p {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+    .landing_text {
+        height: 72.5vh;
+    }
+    .vision_container h1 {
+        font-size: 2.0rem;
+    }
+    .vision {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+    }
+    .vision_item {
+        gap: 0.5rem;
+        width: 90%;
+    }
+}
