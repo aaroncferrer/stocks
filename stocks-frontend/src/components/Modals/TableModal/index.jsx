@@ -2,9 +2,12 @@ import axios from 'axios';
 import './tableModal.css'
 import Modal from 'react-bootstrap/Modal'
 import { useEffect, useState } from 'react';
+import { useApiUrl } from '../../../ApiContext';
 
 function TableModal(props) {
     const { currentUser, setCurrentUser, table_header, showStockModal, setShowStockModal, stockData, showTraderModal, setShowTraderModal, traderData, updateTrader, setPortfolioUpdated } = props;
+
+    const apiUrl = useApiUrl();
     
     const handleSubmitBuy = async (e) => {
         e.preventDefault();
@@ -15,7 +18,7 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            await axios.post('https://stocks-avion.onrender.com/transactions', 
+            await axios.post(`${apiUrl}/transactions`, 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
@@ -42,7 +45,7 @@ function TableModal(props) {
 
         try {
             const token = currentUser.token;
-            const response = await axios.post('https://stocks-avion.onrender.com/transactions', 
+            const response = await axios.post(`${apiUrl}/transactions`, 
             {
                 stock_symbol: stockSymbol,
                 quantity: quantity,
@@ -53,7 +56,6 @@ function TableModal(props) {
                 }
             });
             const data = response.data;
-            console.log(data);
             setPortfolioUpdated(true);
             setCurrentUser({ ...currentUser, balance: currentUser.balance + (totalPrice) });   
             alert("Stock successfully sold!");

@@ -1,8 +1,11 @@
 import axios from "axios";
 import { useMemo, useEffect, useState } from "react";
 import Table from '../../utils/Table';
+import { useApiUrl } from "../../ApiContext";
 
 function Portfolios({ currentUser, setCurrentUser }) {
+    const apiUrl = useApiUrl();
+
     const [portfolios, setPortfolios] = useState([]);
     const [showStockModal, setShowStockModal] = useState(false);
     const [selectedStock, setSelectedStock] = useState(null);
@@ -11,12 +14,11 @@ function Portfolios({ currentUser, setCurrentUser }) {
     const fetchPortfolioDetails = async (id) => {
         try {
             const token = currentUser.token;
-            const response = await axios.get(`https://stocks-avion.onrender.com/portfolios/${id}`, {
+            const response = await axios.get(`${apiUrl}/portfolios/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             });
-            console.log(response.data);
             const portfolioData = response.data;
             setSelectedStock({
                 name: portfolioData.stock.name,
@@ -35,7 +37,7 @@ function Portfolios({ currentUser, setCurrentUser }) {
         const fetchPortfolios = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('https://stocks-avion.onrender.com/portfolios', {
+                const response = await axios.get(`${apiUrl}/portfolios`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

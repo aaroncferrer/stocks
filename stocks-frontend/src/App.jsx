@@ -9,18 +9,19 @@ import Footer from './components/Footer';
 
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { ApiProvider } from './ApiContext';
 
 function App() {
     const [currentUser, setCurrentUser] = useState(JSON.parse(localStorage.getItem('currentUser')) || null)
     
-    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL;
-    console.log(apiUrl);    
+    const apiUrl = import.meta.env.VITE_REACT_APP_API_URL; 
 
     useEffect(() => {
         localStorage.setItem('currentUser', JSON.stringify(currentUser))
     }, [currentUser])
 
     return (
+        <ApiProvider apiUrl={apiUrl}>
         <Router>  
             <Routes>
                 <Route exact path='/' element={<Landing 
@@ -36,6 +37,7 @@ function App() {
             </Routes>
             <Footer />
         </Router>
+        </ApiProvider>
     )
 }
 

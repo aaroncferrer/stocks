@@ -3,8 +3,11 @@ import { useMemo, useEffect, useState } from "react";
 import { BsArrowUp, BsArrowDown } from 'react-icons/bs';
 import { GoDash } from 'react-icons/go';
 import Table from '../../utils/Table';
+import { useApiUrl } from "../../ApiContext";
 
 function Stocks({ currentUser, setCurrentUser }) {
+    const apiUrl = useApiUrl();
+
     const [stocks, setStocks] = useState([]);
     const [date, setDate] = useState('');
     const [showStockModal, setShowStockModal] = useState(false);
@@ -13,7 +16,7 @@ function Stocks({ currentUser, setCurrentUser }) {
     const fetchStockDetails = async (id) => {
         try {
             const token = currentUser.token;
-            const response = await axios.get(`https://stocks-avion.onrender.com/stocks/${id}`, {
+            const response = await axios.get(`${apiUrl}/stocks/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -28,7 +31,7 @@ function Stocks({ currentUser, setCurrentUser }) {
         const fetchStocks = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('https://stocks-avion.onrender.com/stocks', {
+                const response = await axios.get(`${apiUrl}/stocks`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
