@@ -2,8 +2,11 @@ import axios from "axios";
 import { useMemo, useEffect, useState } from "react";
 
 import Table from '../../utils/Table';
+import { useApiUrl } from "../../ApiContext";
 
 function Traders({ currentUser }) {
+    const apiUrl = useApiUrl();
+
     const [traders, setTraders] = useState([]);
     const [showTraderModal, setShowTraderModal] = useState(false);
     const [selectedTrader, setSelectedTrader] = useState(null);
@@ -11,15 +14,10 @@ function Traders({ currentUser }) {
     const [selectedStatus, setSelectedStatus] = useState("all");
     const [loading, setLoading] = useState(true);
 
-    // For debugging
-    // useEffect(() => {
-    //     console.log("selectedTrader", selectedTrader);
-    // }, [selectedTrader]);
-
     const fetchTraderDetails = async (id) => {
         try {
             const token = currentUser.token;
-            const response = await axios.get(`https://stocks-avion.onrender.com/admin/traders/${id}`, {
+            const response = await axios.get(`${apiUrl}/admin/traders/${id}`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -34,7 +32,7 @@ function Traders({ currentUser }) {
     const updateTrader = async (id, updatedData) => {
         try {
             const token = currentUser.token;
-            await axios.patch(`https://stocks-avion.onrender.com/admin/traders/${id}`, 
+            await axios.patch(`${apiUrl}/admin/traders/${id}`, 
             {
                 trader: updatedData
             },
@@ -59,7 +57,7 @@ function Traders({ currentUser }) {
         const fetchTraders = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('https://stocks-avion.onrender.com/admin/traders', {
+                const response = await axios.get(`${apiUrl}/admin/traders`, {
                     params: { status: selectedStatus },
                     headers: {
                         Authorization: `Bearer ${token}`

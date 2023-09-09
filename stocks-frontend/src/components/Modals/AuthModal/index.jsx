@@ -5,11 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import Spinner from '../../Spinner'
 
 import './authModal.css'
+import { useApiUrl } from '../../../ApiContext';
 
 function AuthModal(props){
     const {currentUser, setCurrentUser, showLogin, setShowLogin, showSignup, setShowSignup, setTraders, showCreateTrader, setShowCreateTrader } = props;
 
     const navigate = useNavigate();
+
+    const apiUrl = useApiUrl();
     
     const [loading, setLoading] = useState(false);
     const [currentUserType, setCurrentUserType] = useState("admin");
@@ -38,10 +41,9 @@ function AuthModal(props){
         setLoading(true);
 
         try{
-            const response = await axios.post(`https://stocks-avion.onrender.com/${currentUserType}/login`, loginFormData);
+            const response = await axios.post(`${apiUrl}/${currentUserType}/login`, loginFormData);
             const data = response.data;
             setCurrentUser({...data[currentUserType], token: data.token, role: currentUserType})
-            console.log(data);
             alert('Signed in Successfully!');
             setLoginFormData({
                 email: '',
@@ -64,12 +66,11 @@ function AuthModal(props){
         e.preventDefault();
 
         try{
-            const response = await axios.post('https://stocks-avion.onrender.com/trader/signup', 
+            const response = await axios.post(`${apiUrl}/trader/signup`, 
             {
                 trader: signupFormData
             });
             const data = response.data;
-            console.log(data);
             alert('Signup was successful. Please check your email');
             setSignupFormData({
                 first_name: '',
@@ -89,7 +90,7 @@ function AuthModal(props){
 
         try{
             const token = currentUser.token
-            const response = await axios.post('https://stocks-avion.onrender.com/admin/traders',
+            const response = await axios.post(`${apiUrl}/admin/traders`,
             {
                 trader: signupFormData
             },
@@ -99,7 +100,6 @@ function AuthModal(props){
                 }
             })
             const data = response.data;
-            console.log(data);
             alert('Trader Account Created.');
             setTraders((prevTraders) => [...prevTraders, data]);
             setSignupFormData({

@@ -4,8 +4,11 @@ import Stocks from '../../components/Stocks';
 import Transactions from '../../components/Transactions';
 import Portfolios from '../../components/Portfolios';
 import axios from 'axios';
+import { useApiUrl } from '../../ApiContext';
 
 function TraderDashboard({setCurrentUser, currentUser}){
+    const apiUrl = useApiUrl();
+
     const [module, setModule] = useState(null);
     const [showWithdrawModal, setShowWithdrawModal] = useState(false);
     const [showDepositModal, setShowDepositModal] = useState(false);
@@ -22,7 +25,7 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.patch( `https://stocks-avion.onrender.com/traders/${currentUser.id}`,
+            await axios.patch( `${apiUrl}/traders/${currentUser.id}`,
                 { 
                     amount: depositAmount,
                     action_type: 'deposit'
@@ -52,7 +55,7 @@ function TraderDashboard({setCurrentUser, currentUser}){
 
         try {
             const token = currentUser.token;
-            await axios.patch(`https://stocks-avion.onrender.com/traders/${currentUser.id}`,
+            await axios.patch(`${apiUrl}/traders/${currentUser.id}`,
                 { 
                     amount: withdrawAmount,
                     action_type: 'withdraw'

@@ -1,15 +1,18 @@
 import axios from "axios";
 import { useMemo, useEffect, useState } from "react";
 import Table from '../../utils/Table';
+import { useApiUrl } from "../../ApiContext";
 
 function Transactions({ currentUser }) {
+    const apiUrl = useApiUrl();
+
     const [transactions, setTransactions] = useState([]);
 
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
                 const token = currentUser.token;
-                const response = await axios.get('https://stocks-avion.onrender.com/transactions', {
+                const response = await axios.get(`${apiUrl}/transactions`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
