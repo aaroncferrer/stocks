@@ -1,11 +1,12 @@
-class CreatePortfolios < ActiveRecord::Migration[7.0]
+class CreateTransactions < ActiveRecord::Migration[7.0]
   def change
-    create_table :portfolios do |t|
+    create_table :transactions do |t|
       t.references :trader, null: false, foreign_key: true
       t.references :stock, null: false, foreign_key: true
+      t.string :action
       t.integer :quantity
-      t.float :current_price
-      t.float :total_amount
+      t.float :total_price
+      t.string :stock_symbol
 
       t.timestamps
     end
