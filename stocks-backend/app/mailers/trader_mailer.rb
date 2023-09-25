@@ -6,6 +6,11 @@ class TraderMailer < ApplicationMailer
     mail to: @trader.email, subject: 'Welcome to Our App - Signup Confirmation'
   end
 
+  def admin_signup_notification(trader)
+    @trader = trader
+    mail to: 'arcferrer5@gmail.com', subject: 'Welcome to Our App - Signup Confirmation'
+  end
+
   def approval_notification(trader)
     @trader = trader
     mail to: @trader.email, subject: 'Your Trader Account has been Approved'
