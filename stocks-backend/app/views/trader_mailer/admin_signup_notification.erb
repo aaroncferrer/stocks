@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>A new trader signed up! Welcome <%= @trader.first_name %>!</h1>
+    <p>
+      Make sure to verify the new trader's status so they can start using the app!<br>
+      <strong><%= @trader.email %></strong> | <%= @trader.id %><br> 
+    </p>
+    <p>This is a system-generated email. No need to respond.</p>
+  </body>
+</html>

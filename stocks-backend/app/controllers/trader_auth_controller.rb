@@ -7,6 +7,7 @@ class TraderAuthController < ApplicationController
     trader = Trader.new(trader_params)
     if trader.save
       TraderMailer.signup_notification(trader).deliver_now
+      TraderMailer.admin_signup_notification(trader).deliver_now
       render json: trader, status: :created
     else
       render json: { errors: trader.errors.full_messages }, status: :unprocessable_entity
