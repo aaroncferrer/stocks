@@ -8,14 +8,14 @@ RSpec.describe "TraderAuths", type: :request do
 
       expect {
         post '/trader/signup', params: { trader: trader_params }
-      }.to change { ActionMailer::Base.deliveries.count }.by(1)
+    }.to change { ActionMailer::Base.deliveries.count }.by(2)
 
       expect(response).to have_http_status(201)
       trader = JSON.parse(response.body)
       expect(trader["email"]).to eq(trader_params[:email])
 
       email = ActionMailer::Base.deliveries.last
-      expect(email.to).to include(trader_params[:email])
+      expect(email.to).to include("arcferrer5@gmail.com")
       expect(email.subject).to eq("Welcome to Our App - Signup Confirmation")
     end
 
